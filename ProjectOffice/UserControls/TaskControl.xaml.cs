@@ -23,10 +23,11 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class TaskControl : UserControl
     {
-        public string Name;
-        public string ShortName;
-        public DateTime Date;
-        public EmployeeOfTask Employee;
+        public new string Title { get; set; }
+        public string ShortName { get; set; }
+        public DateTime Date { get; set; }
+        public EmployeeOfTask Employee { get; set; }
+        public int StatusId { get; set; }
 
         public TaskControl()
         {
@@ -39,7 +40,16 @@ namespace ProjectOffice.UserControls
             ShortName = info.ShortName;
             Date = info.Date;
             Employee = info.Employee;
-            Name = info.Name;
+            Title = info.Name;
+            StatusId = info.StatusId;
+            CreateStatus();
+        }
+
+        private void CreateStatus()
+        {
+            UserControls.TaskStatusControl taskStatusControl = new((TaskStatusControl.TaskStatus)StatusId);
+            taskStatusControl.SetValue(Grid.ColumnProperty, 1);
+            MainGrid.Children.Add(taskStatusControl);
         }
     }
 }

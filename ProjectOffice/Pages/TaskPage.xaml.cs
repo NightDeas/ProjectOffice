@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectOffice.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,20 @@ namespace ProjectOffice.Pages
     /// </summary>
     public partial class TaskPage : Page
     {
-        public TaskPage()
+        Guid _projectId;
+        public TaskPage(Guid projectId)
         {
             InitializeComponent();
+            _projectId = projectId;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            var taskControls = TaskService.LoadTask(_projectId);
+            foreach (var task in taskControls)
+            {
+                TaskListStackPanel.Children.Add(task);
+            }
         }
     }
 }

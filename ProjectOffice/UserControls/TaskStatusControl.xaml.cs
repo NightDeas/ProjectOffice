@@ -23,7 +23,7 @@ namespace ProjectOffice.UserControls
     {
         public enum TaskStatus
         {
-            Fire,
+            Fire = 1,
             Open,
             Work,
             ConditionallyCompleted,

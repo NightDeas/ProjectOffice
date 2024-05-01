@@ -8,8 +8,8 @@ namespace ProjectOffice.Models
 {
     public class EmployeeOfTask
     {
-        public string FullName;
-        public string ShortName;
+        public string FullName { get; set; }
+        public string ShortName { get; set; }
 
         public EmployeeOfTask(string fullName, string shortName)
         {

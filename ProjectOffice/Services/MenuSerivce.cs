@@ -64,6 +64,8 @@ namespace ProjectOffice.Services
 
         private static void RaiseEventMouseLeftButtonDown(ProjectInPanelControl project)
         {
+            if (App.mainWindow.MenuStackPanel.Children.Count == 0)
+                return;
             project ??= App.mainWindow.MenuStackPanel.Children[0] as ProjectInPanelControl;
             MouseButtonEventArgs routedEventArgs = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left);
             routedEventArgs.RoutedEvent = ProjectInPanelControl.MouseLeftButtonDownEvent;

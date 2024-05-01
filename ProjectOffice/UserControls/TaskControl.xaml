@@ -5,24 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectOffice.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="50" d:DesignWidth="800">
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="Gray" Padding="5" Margin="5">
+        
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="125"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="{Binding ShortName}"><!--#PRO-111--></Label>
+            <Label Foreground="Gray" Grid.Column="0" Content="{Binding ShortName, StringFormat=#{0}}"><!--#PRO-111--></Label>
         <!--<Border x:Name="" Background="Red" Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="1">
             <Border.CornerRadius>5</Border.CornerRadius>
             <Label>открыта</Label>
         </Border>-->
-        <TextBlock TextWrapping="Wrap" Grid.Column="2" Text="{Binding Name}"><!--Выполнить обновление антивапвпваап--></TextBlock>
-        <Label Grid.Column="3" Content="{Binding Employee.ShortName}"><!--Петров В. И--></Label>
-        <Label Grid.Column="4" Content="{Binding Date}"><!--01.07.2023 15:15--></Label>
+        <TextBlock Margin="10,0,0,0" TextWrapping="WrapWithOverflow" Grid.Column="2" Text="{Binding Title}"><!--Выполнить обновление антивапвпваап--></TextBlock>
+            <Label Foreground="Gray" Margin="10,0,0,0" Grid.Column="3" Content="{Binding Employee.ShortName}"><!--Петров В. И--></Label>
+            <Label Foreground="Gray" Margin="10,0,0,0" Grid.Column="4" Content="{Binding Date, StringFormat=d}"><!--01.07.2023 15:15--></Label>
         <Image Source="\Resources\app_next_icon.png" Grid.Column="6"></Image>
     </Grid>
+    </Border>
 </UserControl>

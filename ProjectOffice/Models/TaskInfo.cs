@@ -13,12 +13,6 @@ namespace ProjectOffice.Models
         public EmployeeOfTask Employee;
         public DateTime Date;
         public string ShortName;
-
-        public TaskInfo(string name, EmployeeOfTask employee, DateTime date)
-        {
-            Name = name;
-            Employee = employee;
-            Date = date;
-        }
+        public int StatusId;
     }
 }

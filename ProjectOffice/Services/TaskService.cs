@@ -1,11 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using ProjectOffice.Entities;
 using ProjectOffice.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProjectOffice.Services
 {
@@ -16,15 +21,22 @@ namespace ProjectOffice.Services
         {
             List<UIElement> taskControls = new List<UIElement>();
             var tasks = App.context.Tasks
-                .Where(x=> x.ProjectId == projectId)
-                .ToList();
+                .Where(x => x.ProjectId == projectId)
+                .Include(x => x.ExecutiveEmployeed)
+            .ToList();
 
             foreach (var task in tasks)
             {
-                //TaskInfo info = new TaskInfo(task.FullTitle, new EmployeeOfTask(task.Project.))
-                //taskControls.Add(new UserControls.TaskControl())
+                TaskInfo info = new TaskInfo()
+                {
+                    Name = task.FullTitle,
+                    Employee = new EmployeeOfTask(task.ExecutiveEmployeed.FullName, task.ExecutiveEmployeed.ShortName),
+                    Date = task.Deadline ?? DateTime.MinValue,
+                    ShortName = task.ShortTitle,
+                    StatusId = task.StatusId,
+                };
+                taskControls.Add(new UserControls.TaskControl(info));
             }
-
             return taskControls;
         }
     }
