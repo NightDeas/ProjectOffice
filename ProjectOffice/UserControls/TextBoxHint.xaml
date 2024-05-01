@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="ProjectOffice.UserControls.TextBoxHint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectOffice.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <TextBox x:Name="textTb" Margin="10,5" Height="30" TextChanged="TextBox_TextChanged">
+            <TextBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Label HorizontalAlignment="Left" Margin="10,5" Visibility="{Binding HasText}" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="Gray">Введите для поиска</Label>
+    </Grid>
+</UserControl>

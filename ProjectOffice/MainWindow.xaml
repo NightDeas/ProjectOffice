@@ -1,0 +1,40 @@
+﻿<Window x:Class="ProjectOffice.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectOffice"
+        xmlns:uc="clr-namespace:ProjectOffice.UserControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="childrenInPanel" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="ImageInStackPanel" BasedOn="{StaticResource childrenInPanel}">
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="DarkBlue">
+            <Image Grid.Row="0" Source="\Resources\app_icon.png"></Image>
+        </Grid>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Background="DarkBlue">
+            <StackPanel>
+                <Image Source="\Resources\app_dasboard_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+                <Image Source="\Resources\app_tasks_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+                <Image Source="\Resources\app_cal_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+            </StackPanel>
+            <StackPanel x:Name="MenuStackPanel" ></StackPanel>
+        </StackPanel>
+        <TextBlock TextAlignment="Center" Background="DarkBlue" x:Name="VersionAppTb" Grid.Row="2" Text="{Binding VersionApp, TargetNullValue='1.0'}" Foreground="Gray"></TextBlock>
+    </Grid>
+</Window>

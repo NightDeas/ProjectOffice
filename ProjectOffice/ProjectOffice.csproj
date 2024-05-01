@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion></FileVersion>
+    <StartupObject>ProjectOffice.App</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\app_cal_icon.png" />
+    <None Remove="Resources\app_cal_icon.svg" />
+    <None Remove="Resources\app_dasboard_icon.png" />
+    <None Remove="Resources\app_dasboard_icon.svg" />
+    <None Remove="Resources\app_icon.png" />
+    <None Remove="Resources\app_icon.svg" />
+    <None Remove="Resources\app_next_icon.png" />
+    <None Remove="Resources\app_next_icon.svg" />
+    <None Remove="Resources\app_plus_icon.png" />
+    <None Remove="Resources\app_plus_icon.svg" />
+    <None Remove="Resources\app_tasks_icon.png" />
+    <None Remove="Resources\app_tasks_icon.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="efpt.config.json.user" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\app_cal_icon.png" />
+    <Resource Include="Resources\app_cal_icon.svg" />
+    <Resource Include="Resources\app_dasboard_icon.png" />
+    <Resource Include="Resources\app_dasboard_icon.svg" />
+    <Resource Include="Resources\app_icon.png" />
+    <Resource Include="Resources\app_icon.svg" />
+    <Resource Include="Resources\app_next_icon.png" />
+    <Resource Include="Resources\app_next_icon.svg" />
+    <Resource Include="Resources\app_plus_icon.png" />
+    <Resource Include="Resources\app_plus_icon.svg" />
+    <Resource Include="Resources\app_tasks_icon.png" />
+    <Resource Include="Resources\app_tasks_icon.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EfCore.SchemaCompare" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.17" />
+  </ItemGroup>
+
+</Project>
