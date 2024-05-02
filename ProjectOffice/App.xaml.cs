@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ProjectOffice
 {
@@ -12,6 +13,7 @@ namespace ProjectOffice
         public static Entities.DbContextProjectOffice context = new Entities.DbContextProjectOffice();
         public static MainWindow mainWindow;
         public static List<Entities.TaskStatus> TaskStatus = context.TaskStatuses.ToList();
+        //public static Pages.TaskPage TaskPage = new();
     }
 
 }

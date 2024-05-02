@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="ProjectOffice.UserControls.DetailedTaskControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectOffice.UserControls"
+             xmlns:UserControls="clr-namespace:ProjectOffice.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+    <Border>
+        <Grid>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ShortTitle}" Margin="10,0,0,0">#PRO-123</TextBlock>
+                    <TextBlock Margin="10,0,0,0">Подготовить отчёт</TextBlock>
+                    <UserControls:TaskStatusControl x:Name="TaskStatus" Margin="10,0,0,0">В работе</UserControls:TaskStatusControl>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Создание задачи: </TextBlock>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding CreatedTime, StringFormat=d}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Дедлайн:</TextBlock>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding DeadLine, StringFormat=d}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock>Предшествующая задача:</TextBlock>
+                    <TextBox Text="{Binding LastTask}" Foreground="Gray" Width="100" HorizontalAlignment="Left" Margin="10,5,0,0"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Фактическое начало выполнения: </TextBlock>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding StartActualTime, StringFormat=d}"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Фактическое завершение:</TextBlock>
+                    <TextBlock Margin="10,0,0,0" Text="{Binding EndActualTime, StringFormat=d}"></TextBlock>
+                </StackPanel>
+                <Grid>
+                    <TextBox Height="70" MinWidth="350" MaxWidth="400" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
+                    <Label Content="Описание задачи" IsHitTestVisible="True"></Label>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

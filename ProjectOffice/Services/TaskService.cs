@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using ProjectOffice.Entities;
 using ProjectOffice.Models;
+using ProjectOffice.Pages;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +20,7 @@ namespace ProjectOffice.Services
 {
     public static class TaskService
     {
-
+        public static Pages.TaskPage TaskPage { get;} = new Pages.TaskPage();
         public static List<UIElement> LoadTask(Guid projectId)
         {
             List<UIElement> taskControls = new List<UIElement>();
@@ -35,7 +39,8 @@ namespace ProjectOffice.Services
                     ShortName = task.ShortTitle,
                     StatusId = task.StatusId,
                 };
-                taskControls.Add(new UserControls.TaskControl(info));
+                //taskControls.Add(new UserControls.TaskControl(info));
+                TaskPage.TaskListStackPanel.Children.Add(new UserControls.TaskControl(info));
             }
             return taskControls;
         }

@@ -22,14 +22,21 @@ namespace ProjectOffice.Pages
     public partial class TaskPage : Page
     {
         Guid _projectId;
-        public TaskPage(Guid projectId)
+
+        public TaskPage()
         {
             InitializeComponent();
+        }
+
+        public TaskPage(Guid projectId) : this()
+        {
             _projectId = projectId;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            if (_projectId == Guid.Empty)
+                return;
             var taskControls = TaskService.LoadTask(_projectId);
             foreach (var task in taskControls)
             {

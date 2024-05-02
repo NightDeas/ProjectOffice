@@ -23,12 +23,12 @@
                 <UserControls:TextBoxHint x:Name="SearchTextBox"></UserControls:TextBoxHint>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid x:Name="TaskGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="TaskListStackPanel" Orientation="Vertical"></StackPanel>
+            <StackPanel x:Name="TaskListStackPanel" Grid.ColumnSpan="2" Orientation="Vertical"></StackPanel>
         </Grid>
     </Grid>
 </Page>

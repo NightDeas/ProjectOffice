@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:ProjectOffice.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800">
-    <Border x:Name="border">
+    <Border x:Name="border" Margin="10,0,0,0">
         <Border.CornerRadius>10</Border.CornerRadius>
-        <Label VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="content"></Label>
+        <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="content"></Label>
     </Border>
 </UserControl>
