@@ -29,6 +29,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel x:Name="TaskListStackPanel" Grid.ColumnSpan="2" Orientation="Vertical"></StackPanel>
+            <Grid x:Name="DetailTaskGrid" Visibility="Collapsed" Grid.Column="1"></Grid>
         </Grid>
     </Grid>
 </Page>

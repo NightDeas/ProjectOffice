@@ -16,14 +16,14 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-            <TextBlock Foreground="Gray" Grid.Column="0" Text="{Binding ShortName, StringFormat='#{0}'}" MouseEnter="Label_MouseEnter"><!--#PRO-111--></TextBlock>
+            <TextBlock Foreground="Gray" Grid.Column="0" Text="{Binding ShortName, StringFormat='#{0}'}"><!--#PRO-111--></TextBlock>
         <!--<Border x:Name="" Background="Red" Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="1">
             <Border.CornerRadius>5</Border.CornerRadius>
             <Label>открыта</Label>
         </Border>-->
         <TextBlock Margin="10,0,0,0" TextWrapping="WrapWithOverflow" Grid.Column="2" Text="{Binding Title}"><!--Выполнить обновление антивапвпваап--></TextBlock>
             <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="3" Text="{Binding Employee.ShortName}"><!--Петров В. И--></TextBlock>
-            <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="4" Text="{Binding Date, StringFormat=dd.mm.yyyy hh:mm}" MouseEnter="Label_MouseEnter"><!--01.07.2023 15:15--></TextBlock>
+            <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="4" Text="{Binding Date, StringFormat=dd.mm.yyyy hh:mm}"><!--01.07.2023 15:15--></TextBlock>
         <Image Source="\Resources\app_next_icon.png" Grid.Column="6"></Image>
     </Grid>
     </Border>

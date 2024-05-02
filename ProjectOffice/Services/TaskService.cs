@@ -13,6 +13,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -40,9 +42,21 @@ namespace ProjectOffice.Services
                     StatusId = task.StatusId,
                 };
                 //taskControls.Add(new UserControls.TaskControl(info));
-                TaskPage.TaskListStackPanel.Children.Add(new UserControls.TaskControl(info));
+                TaskPage.TaskListStackPanel.Children.Add(new UserControls.TaskControl(info)
+                {
+                    Tag = task.Id
+                });
             }
             return taskControls;
+        }
+
+        public static void LoadDetailTask(DetailedTaskInfo info)
+        {
+            TaskPage.DetailTaskGrid.Children.Clear();
+            UserControls.DetailedTaskControl detailedTaskControl = new(info);
+            detailedTaskControl.SetValue(Grid.ColumnProperty, 1);
+            TaskService.TaskPage.DetailTaskGrid.Children.Add(detailedTaskControl);
+            TaskPage.DetailTaskGrid.Visibility = Visibility.Visible;
         }
     }
 }

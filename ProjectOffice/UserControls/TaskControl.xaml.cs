@@ -1,4 +1,6 @@
-﻿using ProjectOffice.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+
+using ProjectOffice.Entities;
 using ProjectOffice.Models;
 using ProjectOffice.Services;
 
@@ -17,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xaml;
 
 namespace ProjectOffice.UserControls
 {
@@ -54,14 +57,26 @@ namespace ProjectOffice.UserControls
             MainGrid.Children.Add(taskStatusControl);
         }
 
-        private void Label_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
 
         private void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TaskService.TaskPage.TaskListStackPanel.SetValue(Grid.ColumnSpanProperty, 1);
+            var task = App.context.Tasks
+                .Include(x => x.ExecutiveEmployeed)
+                .Include(x => x.PreviousTask)
+                .FirstOrDefault(x => x.Id == (Guid)(sender as TaskControl).Tag);
+            DetailedTaskInfo detailedTaskInfo = new DetailedTaskInfo()
+            {
+                DeadLine = task.Deadline,
+                CreatedTime = task.CreatedTime,
+                Employee = task.ExecutiveEmployeed.FullName,
+                EndActualTime = task.FinishActualTime,
+                LastTask = task.PreviousTask == null ? null : task.PreviousTask.ShortTitle,
+                ShortTitle = task.ShortTitle,
+                StartActualTime = task.StartActualTime,
+                StatusType = (int)task.Status.Type
+            };
+            TaskService.LoadDetailTask(detailedTaskInfo);
         }
     }
 }
