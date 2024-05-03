@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ProjectOfficeApi.Entities.Project>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Icon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartScheduledDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishScheduledDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorEmployeedId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResponsibleEmployeedId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Icon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartScheduledDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishScheduledDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatorEmployeedId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponsibleEmployeedId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
