@@ -35,13 +35,13 @@ namespace ProjectOffice.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_projectId == Guid.Empty)
-                return;
-            var taskControls = TaskService.LoadTask(_projectId);
-            foreach (var task in taskControls)
-            {
-                TaskListStackPanel.Children.Add(task);
-            }
+            //if (_projectId == Guid.Empty)
+            //    return;
+            //var taskControls = TaskService.LoadTask(_projectId);
+            //foreach (var task in taskControls)
+            //{
+            //    TaskListStackPanel.Children.Add(task);
+            //}
         }
     }
 }

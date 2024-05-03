@@ -23,9 +23,9 @@ namespace ProjectOffice.Services
     public static class TaskService
     {
         public static Pages.TaskPage TaskPage { get;} = new Pages.TaskPage();
-        public static List<UIElement> LoadTask(Guid projectId)
+        public static void LoadTask(Guid projectId)
         {
-            List<UIElement> taskControls = new List<UIElement>();
+            TaskPage.TaskListStackPanel.Children.Clear();
             var tasks = App.context.Tasks
                 .Where(x => x.ProjectId == projectId)
                 .Include(x => x.ExecutiveEmployeed)
@@ -47,7 +47,6 @@ namespace ProjectOffice.Services
                     Tag = task.Id
                 });
             }
-            return taskControls;
         }
 
         public static void LoadDetailTask(DetailedTaskInfo info)

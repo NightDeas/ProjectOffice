@@ -63,7 +63,6 @@ namespace ProjectOffice.UserControls
             (sender as ProjectInPanelControl).contentLb.Style = (Style)this.Resources["selectProject"];
             MenuSerivce.SetStyleSelectProject(sender as ProjectInPanelControl);
             MenuSerivce.SaveSelectProject(sender as ProjectInPanelControl);
-
             //App.mainWindow.FrameMain.Navigate(new Pages.TaskPage((Guid)(sender as ProjectInPanelControl).Tag));
             App.mainWindow.FrameMain.Navigate(TaskService.TaskPage);
             TaskService.LoadTask((Guid)(sender as ProjectInPanelControl).Tag);

@@ -36,10 +36,12 @@ namespace ProjectOffice.UserControls
         public DateTime? CreatedTime { get;set; }
         public string? ShortTitle { get; set; }
         public int? StatusType { get; set; }
+        public List<Employee> EmployeeList { get; set; }
         public DetailedTaskControl()
         {
             InitializeComponent();
             DataContext = this;
+            EmployeeList = App.context.Employees.ToList();
         }
 
         public DetailedTaskControl(DetailedTaskInfo info) : this()
