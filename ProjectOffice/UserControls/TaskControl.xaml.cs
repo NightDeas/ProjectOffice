@@ -58,15 +58,17 @@ namespace ProjectOffice.UserControls
         }
 
 
-        private void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TaskService.TaskPage.TaskListStackPanel.SetValue(Grid.ColumnSpanProperty, 1);
-            var task = App.context.Tasks
-                .Include(x => x.ExecutiveEmployeed)
-                .Include(x => x.PreviousTask)
-                .FirstOrDefault(x => x.Id == (Guid)(sender as TaskControl).Tag);
+            //var task = App.context.Tasks
+            //    .Include(x => x.ExecutiveEmployeed)
+            //    .Include(x => x.PreviousTask)
+            //    .FirstOrDefault(x => x.Id == (Guid)(sender as TaskControl).Tag);
+            var task = await ApiService.GetTask((Guid)(sender as TaskControl).Tag);
             DetailedTaskInfo detailedTaskInfo = new DetailedTaskInfo()
             {
+                Id = task.Id,
                 DeadLine = task.Deadline,
                 CreatedTime = task.CreatedTime,
                 Employee = task.ExecutiveEmployeed.FullName,
@@ -74,9 +76,15 @@ namespace ProjectOffice.UserControls
                 LastTask = task.PreviousTask == null ? null : task.PreviousTask.ShortTitle,
                 ShortTitle = task.ShortTitle,
                 StartActualTime = task.StartActualTime,
-                StatusType = (int)task.Status.Type
+                StatusType = (int)task.Status.Type,
+                Description = task.Description
             };
+
+            //BorderMain.Background = new SolidColorBrush(Colors.Aquamarine);
+            //ImageNext.Visibility = Visibility.Hidden;
+            
             TaskService.LoadDetailTask(detailedTaskInfo);
+            TaskService.SetStyleSelectTask(this);
         }
     }
 }

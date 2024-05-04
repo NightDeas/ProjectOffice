@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectOffice.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ProjectOffice.UserControls
 {
@@ -37,7 +39,13 @@ namespace ProjectOffice.UserControls
 
         public TaskStatusControl(TaskStatus status) : this()
         {
-            var stat = App.TaskStatus.FirstOrDefault(x => x.Type == (int)status);
+            //var stat = App.TaskStatus.FirstOrDefault(x => x.Type == (int)status);
+            Loaded((int)status);
+        }
+
+        private async void Loaded(int statusId)
+        {
+            var stat = await ApiService.GetTaskStatus(statusId);
             if (stat == null)
                 throw new Exception("Не найден статус задачи в БД");
             border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(stat.ColorHex));

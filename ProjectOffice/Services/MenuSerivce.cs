@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Quic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,13 +25,12 @@ namespace ProjectOffice.Services
             set { oldSelectProject = value; }
         }
 
-        public static void LoadProjects(MainWindow mainWindow)
+        public static async Task LoadProjects(MainWindow mainWindow)
         {
-            var listProject = App.context.Projects.ToList();
-            List<ProjectInPanelControl> projects = new();
+            //var listProject = App.context.Projects.ToList();
+            var listProject = await ApiService.GetProjects();
             foreach (var project in listProject)
             {
-                //projects.Add();
                 mainWindow.MenuStackPanel.Children.Add(new ProjectInPanelControl(project.FullTitle)
                 {
                     Style = (Style)Application.Current.MainWindow.Resources["childrenInPanel"],
@@ -39,15 +39,17 @@ namespace ProjectOffice.Services
             }
         }
 
-        public static void AutoSelectProject(MainWindow mainWindow)
+        public static async Task AutoSelectProject(MainWindow mainWindow)
         {
             if (Properties.Settings.Default.ProjectIdLastSelect.IsNullOrEmpty())
                 RaiseEventMouseLeftButtonDown(null);
             else
             {
                 Guid id = Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect);
-                bool any = App.context.Projects.Any(x => x.Id == id);
-                if (any)
+                //bool any = App.context.Projects.Any(x => x.Id == id);
+                var projectFind = ApiService.GetProject(id);
+
+                if (projectFind != null)
                 {
                     foreach (var project in mainWindow.MenuStackPanel.Children)
                     {

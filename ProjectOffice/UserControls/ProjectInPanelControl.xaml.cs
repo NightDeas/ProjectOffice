@@ -58,14 +58,14 @@ namespace ProjectOffice.UserControls
             contentLb.Style = (Style)Resources["default"];
         }
 
-        private void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (sender as ProjectInPanelControl).contentLb.Style = (Style)this.Resources["selectProject"];
             MenuSerivce.SetStyleSelectProject(sender as ProjectInPanelControl);
             MenuSerivce.SaveSelectProject(sender as ProjectInPanelControl);
             //App.mainWindow.FrameMain.Navigate(new Pages.TaskPage((Guid)(sender as ProjectInPanelControl).Tag));
             App.mainWindow.FrameMain.Navigate(TaskService.TaskPage);
-            TaskService.LoadTask((Guid)(sender as ProjectInPanelControl).Tag);
+            await TaskService.LoadTask((Guid)(sender as ProjectInPanelControl).Tag);
         }
     }
 }

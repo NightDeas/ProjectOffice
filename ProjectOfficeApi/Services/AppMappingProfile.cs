@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-
+using Microsoft.Identity.Client;
 using ProjectOfficeApi.Controllers;
 
 namespace ProjectOfficeApi.Services
@@ -7,7 +7,7 @@ namespace ProjectOfficeApi.Services
     public class AppMappingProfile : Profile
     {
         public AppMappingProfile() {
-            CreateMap<Entities.Task, TaskRequest>();
+            CreateMap<TaskRequest, Entities.Task>();
         }
     }
 }

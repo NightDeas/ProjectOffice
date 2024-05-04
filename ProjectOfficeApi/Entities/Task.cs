@@ -5,6 +5,8 @@ namespace ProjectOfficeApi.Entities;
 
 public partial class Task
 {
+    
+
     public Guid Id { get; set; }
 
     public Guid ProjectId { get; set; }
@@ -33,6 +35,8 @@ public partial class Task
 
     public Guid? PreviousTaskId { get; set; }
 
+    public bool IsDelete { get; set; }
+
     public virtual ICollection<AttachmentsInTask> AttachmentsInTasks { get; set; } = new List<AttachmentsInTask>();
 
     public virtual Employee ExecutiveEmployeed { get; set; } = null!;
@@ -50,4 +54,8 @@ public partial class Task
     public virtual TaskStatus Status { get; set; } = null!;
 
     public virtual ICollection<TaskObserveEmployee> TaskObserveEmployees { get; set; } = new List<TaskObserveEmployee>();
+
+    public Task()
+    {
+    }
 }

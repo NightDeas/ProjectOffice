@@ -41,10 +41,10 @@ namespace ProjectOffice
             App.mainWindow = this;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Services.MenuSerivce.LoadProjects(this);
-            Services.MenuSerivce.AutoSelectProject(this);
+            await Services.MenuSerivce.LoadProjects(this);
+            await Services.MenuSerivce.AutoSelectProject(this);
         }
     }
 }

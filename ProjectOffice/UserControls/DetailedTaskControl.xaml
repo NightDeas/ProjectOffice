@@ -43,11 +43,12 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Дедлайн:</TextBlock>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding DeadLine, StringFormat=d}"></TextBlock>
+                        <TextBlock x:Name="DeadLineTb" Margin="10,0,0,0" Text="{Binding DeadLine, StringFormat=d}"></TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Предшествующая задача:</TextBlock>
-                        <TextBox Text="{Binding LastTask}" Foreground="Gray" Width="100" HorizontalAlignment="Left" Margin="10,5,0,0"></TextBox>
+                        <!--<TextBox Text="{Binding LastTask}" Foreground="Gray" Width="100" HorizontalAlignment="Left" Margin="10,5,0,0"></TextBox>-->
+                        <ComboBox Foreground="Gray" DisplayMemberPath="ShortTitle" ItemsSource="{Binding TaskList}" Text="{Binding LastTask}" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Фактическое начало выполнения:</TextBlock>
@@ -59,12 +60,12 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Описание задачи"></TextBlock>
-                        <TextBox Height="70" MinWidth="350" MaxWidth="400" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
+                        <TextBox Text="{Binding Description}" Height="70" MinWidth="350" MaxWidth="400" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Исполнитель задачи:</TextBlock>
                         <!--<TextBox Text="{Binding Employee}" IsReadOnly="False" Width="200" HorizontalAlignment="Left"></TextBox>-->
-                        <ComboBox ItemsSource="{Binding EmployeeList}" DisplayMemberPath="FullName" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox ItemsSource="{Binding EmployeeList}" Text="{Binding Employee}" DisplayMemberPath="FullName" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <TextBlock>Приложения:</TextBlock>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -76,7 +77,7 @@
                     </ScrollViewer>
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Сохранить" Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="1" Width="75"></Button>
-                        <Button Content="Удалить" Margin="10,0,0,0" Width="75" BorderBrush="Red" BorderThickness="1" Background="White"></Button>
+                        <Button Content="Удалить" x:Name="BtnDelete" Click="BtnDelete_Click" Margin="10,0,0,0" Width="75" BorderBrush="Red" BorderThickness="1" Background="White"></Button>
                     </StackPanel>
                 </StackPanel>
             </Grid>
