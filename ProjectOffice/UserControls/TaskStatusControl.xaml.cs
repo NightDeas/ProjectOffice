@@ -23,21 +23,13 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class TaskStatusControl : UserControl
     {
-        public enum TaskStatus
-        {
-            Fire = 1,
-            Open,
-            Work,
-            ConditionallyCompleted,
-            Closed,
-            PostPoned
-        }
+        
         public TaskStatusControl()
         {
             InitializeComponent();
         }
 
-        public TaskStatusControl(TaskStatus status) : this()
+        public TaskStatusControl(TaskStatusService.TaskStatus status) : this()
         {
             //var stat = App.TaskStatus.FirstOrDefault(x => x.Type == (int)status);
             Loaded((int)status);
@@ -51,5 +43,7 @@ namespace ProjectOffice.UserControls
             border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(stat.ColorHex));
             content.Content = stat.Name;
         }
+
+        
     }
 }

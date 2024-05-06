@@ -61,6 +61,12 @@ namespace ProjectOffice.Services
             TaskPage.DetailTaskGrid.Visibility = Visibility.Visible;
         }
 
+        public static void CloseDetailTask()
+        {
+            TaskPage.DetailTaskGrid.Children.Clear();
+            TaskPage.DetailTaskGrid.Visibility = Visibility.Collapsed;
+        }
+
 
         public static void SetStyleSelectTask(TaskControl taskControl)
         {

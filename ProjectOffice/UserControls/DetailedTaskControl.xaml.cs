@@ -21,6 +21,8 @@ using System.Windows.Shapes;
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+using Task = ProjectOffice.Entities.Task;
+
 namespace ProjectOffice.UserControls
 {
     /// <summary>
@@ -32,25 +34,41 @@ namespace ProjectOffice.UserControls
         public string? Employee { get; set; }
         public DateTime? EndActualTime { get; set; }
         public DateTime? StartActualTime { get; set; }
-        public string? LastTask { get; set; }
+        public Task LastTask { get; set; }
         public DateTime? DeadLine { get; set; }
         public DateTime? CreatedTime { get; set; }
         public string? ShortTitle { get; set; }
+        public string FullTitle { get; set; }
         public int? StatusType { get; set; }
         public string Description { get; set; }
-        public List<Employee> EmployeeList { get; set; }
-        public List<Entities.Task> TaskList { get; set; }
+        public Employee SelectedTask { get; set; }
+
+        public Employee SelectedEmployee { get; set; }
+
+        private List<Employee> _employees;
+
+        public List<Employee> EmployeeList
+        {
+            get { return _employees; }
+            set { _employees = value; }
+        }
+
+        private List<Entities.Task> _tasks;
+
+        public List<Entities.Task> TaskList
+        {
+            get { return _tasks; }
+            set { _tasks = value; }
+        }
+
+
+
+
         public DetailedTaskControl()
         {
             InitializeComponent();
             DataContext = this;
           
-        }
-
-        private async System.Threading.Tasks.Task LoadData()
-        {
-            EmployeeList = await ApiService.GetEmployees();
-            TaskList = await ApiService.GetTasks();
         }
 
         public DetailedTaskControl(DetailedTaskInfo info) : this()
@@ -65,15 +83,23 @@ namespace ProjectOffice.UserControls
             ShortTitle = info.ShortTitle;
             StatusType = info.StatusType;
             Description = info.Description;
+            FullTitle = info.FullTitle;
             if (DateTime.Now > DeadLine)
-                DeadLineTb.Foreground = new SolidColorBrush(Colors.Red);
+                DeadLineDp.Foreground = new SolidColorBrush(Colors.Red);
             CreateStatus();
         }
 
         private void CreateStatus()
         {
             TaskStatusGrid.Children.Clear();
-            TaskStatusGrid.Children.Add(new TaskStatusControl((TaskStatusControl.TaskStatus)StatusType));
+            StatusType ??= 1;
+            TaskStatusGrid.Children.Add(new TaskStatusControl((TaskStatusService.TaskStatus)StatusType));
+        }
+
+        private void CreateStatus(int StatusType)
+        {
+            TaskStatusGrid.Children.Clear();
+            TaskStatusGrid.Children.Add(new TaskStatusControl((TaskStatusService.TaskStatus)StatusType));
         }
 
         private async void BtnDelete_Click(object sender, RoutedEventArgs e)
@@ -94,6 +120,41 @@ namespace ProjectOffice.UserControls
             //{
             //    MessageBox.Show("Не удалось сохранить");
             //}
+            TaskService.CloseDetailTask();
+        }
+
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            EmployeesCb.ItemsSource = await ApiService.GetEmployees();
+            TaskCb.ItemsSource = await ApiService.GetTasks();
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedEmployee == null)
+                return;
+
+            MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
+            if (result != MessageBoxResult.Yes)
+                return;
+            Task task = new Entities.Task()
+            {
+                FullTitle = this.FullTitle,
+                FinishActualTime = EndActualTime,
+                StartActualTime = StartActualTime,
+                Deadline = DeadLine,
+                Description = this.Description,
+                ExecutiveEmployeed = SelectedEmployee,
+                InversePreviousTask = LastTask,
+            };
+            TaskService.CloseDetailTask();
+
+        }
+
+        private void TaskStatusGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            StatusType = TaskStatusService.StatusNext((int)StatusType);
+            CreateStatus((int)StatusType);
         }
     }
 }

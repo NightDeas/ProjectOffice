@@ -89,7 +89,7 @@ namespace ProjectOffice.Services
         public static async Task DeleteTask(Guid id)
         {
             //Entities.Task task = new();
-            HttpResponseMessage response = await client.DeleteAsync($"{URL_adress}/api/Task/{id}");
+            HttpResponseMessage reponse = await client.DeleteAsync($"{URL_adress}/api/Task/{id}");
             //if (response.IsSuccessStatusCode)
             //{
             //    string responseBody = await response.Content.ReadAsStringAsync();

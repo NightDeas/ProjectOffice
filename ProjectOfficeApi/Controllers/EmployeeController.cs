@@ -11,9 +11,9 @@ namespace ProjectOfficeApi.Controllers
     {
         private readonly Entities.DbContextProjectOffice context;
 
-        public EmployeeController(DbContextProjectOffice context)
+        public EmployeeController()
         {
-            this.context = context;
+            context = new DbContextProjectOffice();
         }
 
         [HttpGet]

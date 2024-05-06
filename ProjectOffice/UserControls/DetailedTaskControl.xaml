@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ProjectOffice.UserControls"
              xmlns:UserControls="clr-namespace:ProjectOffice.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="TextBox">
             <Style.Resources>
@@ -32,9 +32,8 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding ShortTitle}" Margin="00,0,0,0"><!--#PRO-123--></TextBlock>
-                        <TextBlock Margin="10,0,0,0">Подготовить отчёт</TextBlock>
-                        <Grid x:Name="TaskStatusGrid">
-
+                        <TextBox Margin="10,0,0,0" Text="{Binding FullTitle}"><!--Подготовить отчёт--></TextBox>
+                        <Grid x:Name="TaskStatusGrid"  MouseLeftButtonDown="TaskStatusGrid_MouseLeftButtonDown">
                         </Grid>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -43,20 +42,21 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Дедлайн:</TextBlock>
-                        <TextBlock x:Name="DeadLineTb" Margin="10,0,0,0" Text="{Binding DeadLine, StringFormat=d}"></TextBlock>
+                        <DatePicker x:Name="DeadLineDp" Margin="10,0,0,0" SelectedDate="{Binding StartActualTime, StringFormat=d}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Предшествующая задача:</TextBlock>
                         <!--<TextBox Text="{Binding LastTask}" Foreground="Gray" Width="100" HorizontalAlignment="Left" Margin="10,5,0,0"></TextBox>-->
-                        <ComboBox Foreground="Gray" DisplayMemberPath="ShortTitle" ItemsSource="{Binding TaskList}" Text="{Binding LastTask}" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox Foreground="Gray" DisplayMemberPath="ShortTitle" x:Name="TaskCb" Text="{Binding LastTask}" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Фактическое начало выполнения:</TextBlock>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding StartActualTime, StringFormat=d}"></TextBlock>
+                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding StartActualTime, StringFormat=d}">
+                        </DatePicker>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Фактическое завершение:</TextBlock>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding EndActualTime, StringFormat=d}"></TextBlock>
+                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding EndActualTime, StringFormat=d}"></DatePicker>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Описание задачи"></TextBlock>
@@ -65,7 +65,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Исполнитель задачи:</TextBlock>
                         <!--<TextBox Text="{Binding Employee}" IsReadOnly="False" Width="200" HorizontalAlignment="Left"></TextBox>-->
-                        <ComboBox ItemsSource="{Binding EmployeeList}" Text="{Binding Employee}" DisplayMemberPath="FullName" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox x:Name="EmployeesCb" Text="{Binding Employee}" DisplayMemberPath="FullName" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <TextBlock>Приложения:</TextBlock>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -76,7 +76,7 @@
                         <StackPanel x:Name="ObserversStackPanel" Orientation="Vertical"></StackPanel>
                     </ScrollViewer>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="Сохранить" Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="1" Width="75"></Button>
+                        <Button x:Name="BtnSave" Click="BtnSave_Click" Content="Сохранить" Background="LightSkyBlue" BorderBrush="LightSkyBlue" BorderThickness="1" Width="75"></Button>
                         <Button Content="Удалить" x:Name="BtnDelete" Click="BtnDelete_Click" Margin="10,0,0,0" Width="75" BorderBrush="Red" BorderThickness="1" Background="White"></Button>
                     </StackPanel>
                 </StackPanel>

@@ -5,6 +5,10 @@ namespace ProjectOfficeApi.Entities
 {
     public partial class Task
     {
+        public Task()
+        {
+        }
+
         public Task(TaskRequest request)
         {
             ProjectId = request.ProjectId;

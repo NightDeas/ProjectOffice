@@ -52,7 +52,7 @@ namespace ProjectOffice.UserControls
 
         private void CreateStatus()
         {
-            UserControls.TaskStatusControl taskStatusControl = new((TaskStatusControl.TaskStatus)StatusId);
+            UserControls.TaskStatusControl taskStatusControl = new((TaskStatusService.TaskStatus)StatusId);
             taskStatusControl.SetValue(Grid.ColumnProperty, 1);
             MainGrid.Children.Add(taskStatusControl);
         }
@@ -73,7 +73,7 @@ namespace ProjectOffice.UserControls
                 CreatedTime = task.CreatedTime,
                 Employee = task.ExecutiveEmployeed.FullName,
                 EndActualTime = task.FinishActualTime,
-                LastTask = task.PreviousTask == null ? null : task.PreviousTask.ShortTitle,
+                LastTask = task.PreviousTask == null ? null : task.PreviousTask,
                 ShortTitle = task.ShortTitle,
                 StartActualTime = task.StartActualTime,
                 StatusType = (int)task.Status.Type,

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProjectOfficeApi.Controllers
@@ -24,7 +25,7 @@ namespace ProjectOfficeApi.Controllers
             var list = await _context.Tasks
                 .Include(x => x.Status)
                 .Include(x => x.ExecutiveEmployeed)
-                .Include(x => x.PreviousTask)
+                //.Include(x => x.PreviousTask)
             .ToListAsync();
             return Ok(list);
         }
@@ -52,6 +53,7 @@ namespace ProjectOfficeApi.Controllers
             var item = await _context.Tasks
                 .Include(x => x.ExecutiveEmployeed)
                 .Include(x => x.PreviousTask)
+                .Include(x=> x.Status)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (item == null)
                 return NotFound();
@@ -104,7 +106,7 @@ namespace ProjectOfficeApi.Controllers
             return Ok(task);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -114,9 +116,10 @@ namespace ProjectOfficeApi.Controllers
             if (task == null)
                 return NotFound();
             task.IsDelete = true;
+            task.DeletedTime = DateTime.UtcNow;
             try
             {
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {

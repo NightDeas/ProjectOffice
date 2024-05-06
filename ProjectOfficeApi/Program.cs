@@ -1,4 +1,7 @@
 
+using System.Security.Cryptography.Xml;
+using System.Text.Json.Serialization;
+
 namespace ProjectOfficeApi
 {
     public class Program
@@ -13,7 +16,10 @@ namespace ProjectOfficeApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAutoMapper(typeof(Services.AppMappingProfile));
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
             var app = builder.Build();
 
