@@ -32,7 +32,7 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding ShortTitle}" Margin="00,0,0,0"><!--#PRO-123--></TextBlock>
-                        <TextBox Margin="10,0,0,0" Text="{Binding FullTitle}"><!--Подготовить отчёт--></TextBox>
+                        <TextBox Width="350" Margin="10,0,0,0" Text="{Binding FullTitle}"><!--Подготовить отчёт--></TextBox>
                         <Grid x:Name="TaskStatusGrid"  MouseLeftButtonDown="TaskStatusGrid_MouseLeftButtonDown">
                         </Grid>
                     </StackPanel>
