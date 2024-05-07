@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
-        <TextBox x:Name="textTb" Margin="10,5" Height="30" TextChanged="TextBox_TextChanged">
+        <TextBox VerticalContentAlignment="Center" x:Name="textTb" Margin="10,5" Height="30" TextChanged="TextBox_TextChanged">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"></Setter>

@@ -43,5 +43,11 @@ namespace ProjectOffice.Pages
             //    TaskListStackPanel.Children.Add(task);
             //}
         }
+
+       
+        private void ImageAddTask_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TaskService.LoadDetailTask(null);
+        }
     }
 }

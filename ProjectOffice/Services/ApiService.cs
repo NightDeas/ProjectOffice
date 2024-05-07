@@ -1,9 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
+
 using Newtonsoft.Json;
+
+using ProjectOffice.Models.DTO;
+
+using SQLitePCL;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,7 +81,25 @@ namespace ProjectOffice.Services
             return tasks;
         }
 
-         public static async Task<Entities.Task> GetTask(Guid id)
+        public static async Task PostAttachment(AttachmentModel model)
+        {
+            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/Attachment",
+                new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
+        }
+
+        public static async Task<Entities.Attachment> GetAttachment(int id)
+        {
+            Entities.Attachment attachment = new();
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                attachment = JsonConvert.DeserializeObject<Entities.Attachment>(responseBody);
+            }
+            return attachment;
+        }
+
+        public static async Task<Entities.Task> GetTask(Guid id)
         {
             Entities.Task task = new();
             HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task/{id}");
@@ -84,6 +109,30 @@ namespace ProjectOffice.Services
                 task = JsonConvert.DeserializeObject<Entities.Task>(responseBody);
             }
             return task;
+        }
+
+        public static async Task PostTask(TaskModel task)
+        {
+            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/Task", new StringContent(System.Text.Json.JsonSerializer.Serialize(task), null, "application/json"));
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Guid taskId = JsonConvert.DeserializeObject<Guid>(responseBody);
+            }
+        }
+
+        public static async Task PutTask(TaskModel task)
+        {
+            //HttpResponseMessage response = await client.PutAsync($"{URL_adress}/api/Task", new StringContent(JsonConvert.SerializeObject(task)));
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    string responseBody = await response.Content.ReadAsStringAsync();
+            //}
+            var jsonContent = System.Text.Json.JsonSerializer.Serialize(task);
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{URL_adress}/api/Task/{task.Id}");
+            request.Content = new StringContent(jsonContent, null, "application/json");
+            var response = await client.SendAsync(request);
+            var jsonText = await response.Content.ReadAsStringAsync();
         }
 
         public static async Task DeleteTask(Guid id)

@@ -31,45 +31,50 @@
             <Grid>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ShortTitle}" Margin="00,0,0,0"><!--#PRO-123--></TextBlock>
-                        <TextBox Width="350" Margin="10,0,0,0" Text="{Binding FullTitle}"><!--Подготовить отчёт--></TextBox>
+                        <TextBlock Text="{Binding info.ShortTitle}" Margin="00,0,0,0"><!--#PRO-123--></TextBlock>
+                        <TextBox Width="350" Margin="10,0,0,0" Text="{Binding info.FullTitle}"><!--Подготовить отчёт--></TextBox>
                         <Grid x:Name="TaskStatusGrid"  MouseLeftButtonDown="TaskStatusGrid_MouseLeftButtonDown">
                         </Grid>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Создание задачи:</TextBlock>
-                        <TextBlock Margin="10,0,0,0" Text="{Binding CreatedTime, StringFormat=d}"></TextBlock>
+                        <TextBlock Margin="10,0,0,0" Text="{Binding info.CreatedTime, StringFormat=d}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Короткое название:</TextBlock>
+                        <TextBox Text="{Binding info.ShortTitle}" Width="150" Margin="10,0,0,0" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Дедлайн:</TextBlock>
-                        <DatePicker x:Name="DeadLineDp" Margin="10,0,0,0" SelectedDate="{Binding StartActualTime, StringFormat=d}"/>
+                        <DatePicker x:Name="DeadLineDp" Margin="10,0,0,0" SelectedDate="{Binding info.DeadLine, StringFormat=d}"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Предшествующая задача:</TextBlock>
                         <!--<TextBox Text="{Binding LastTask}" Foreground="Gray" Width="100" HorizontalAlignment="Left" Margin="10,5,0,0"></TextBox>-->
-                        <ComboBox Foreground="Gray" DisplayMemberPath="ShortTitle" x:Name="TaskCb" Text="{Binding LastTask}" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox Foreground="Gray" SelectedValue="{Binding info.ShortTitle}" SelectedValuePath="ShortTitle" DisplayMemberPath="ShortTitle" x:Name="TaskCb" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Фактическое начало выполнения:</TextBlock>
-                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding StartActualTime, StringFormat=d}">
+                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding info.StartActualTime, StringFormat=d}">
                         </DatePicker>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>Фактическое завершение:</TextBlock>
-                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding EndActualTime, StringFormat=d}"></DatePicker>
+                        <DatePicker Margin="10,0,0,0" SelectedDate="{Binding info.EndActualTime, StringFormat=d}"></DatePicker>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Описание задачи"></TextBlock>
-                        <TextBox Text="{Binding Description}" Height="70" MinWidth="350" MaxWidth="400" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
+                        <TextBox Text="{Binding info.Description}" Height="70" MinWidth="350" MaxWidth="400" HorizontalAlignment="Left" TextWrapping="Wrap"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Исполнитель задачи:</TextBlock>
                         <!--<TextBox Text="{Binding Employee}" IsReadOnly="False" Width="200" HorizontalAlignment="Left"></TextBox>-->
-                        <ComboBox x:Name="EmployeesCb" Text="{Binding Employee}" DisplayMemberPath="FullName" IsEditable="True" Width="200" HorizontalAlignment="Left"></ComboBox>
+                        <ComboBox x:Name="EmployeesCb" SelectedValue="{Binding info.Employee.Id}" SelectedValuePath="Id" DisplayMemberPath="FullName" Width="200" HorizontalAlignment="Left"></ComboBox>
                     </StackPanel>
                     <TextBlock>Приложения:</TextBlock>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <StackPanel x:Name="DataStackPanel" Orientation="Vertical"></StackPanel>
+                        <StackPanel x:Name="DataStackPanel" Orientation="Vertical">
+                        </StackPanel>
                     </ScrollViewer>
                     <TextBlock>Наблюдатели:</TextBlock>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">

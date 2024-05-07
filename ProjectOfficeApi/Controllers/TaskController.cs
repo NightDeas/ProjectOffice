@@ -81,7 +81,7 @@ namespace ProjectOfficeApi.Controllers
             return Ok(response.Id);
         }
 
-        [HttpPut]
+        [HttpPut("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TaskResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -90,13 +90,16 @@ namespace ProjectOfficeApi.Controllers
         {
             if (request == null)
                 return BadRequest();
-            Entities.Task task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+            Entities.Task task = await _context.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (task == null)
                 return NotFound();
-            task = new(request);
+            Entities.Task dbTask = new(request) {
+                Id = id
+            };
+            _context.Entry(dbTask).State = EntityState.Modified;
             try
             {
-                _context.SaveChangesAsync();
+               await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -183,6 +186,7 @@ namespace ProjectOfficeApi.Controllers
 
     public class TaskRequest
     {
+        public Guid Id { get; set; }
         public Guid ProjectId { get; set; }
 
         public string FullTitle { get; set; }

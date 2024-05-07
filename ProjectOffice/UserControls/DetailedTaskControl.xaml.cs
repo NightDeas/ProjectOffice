@@ -2,7 +2,9 @@
 
 using ProjectOffice.Entities;
 using ProjectOffice.Models;
+using ProjectOffice.Pages;
 using ProjectOffice.Services;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -30,17 +32,22 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class DetailedTaskControl : UserControl
     {
-        public Guid Id { get; set; }
-        public string? Employee { get; set; }
-        public DateTime? EndActualTime { get; set; }
-        public DateTime? StartActualTime { get; set; }
-        public Task LastTask { get; set; }
-        public DateTime? DeadLine { get; set; }
-        public DateTime? CreatedTime { get; set; }
-        public string? ShortTitle { get; set; }
-        public string FullTitle { get; set; }
-        public int? StatusType { get; set; }
-        public string Description { get; set; }
+
+
+        public DetailedTaskInfo info { get; set; } = new();
+        private bool _isCreate = true;
+        //public Guid Id { get; set; }
+        //public Guid ProjectId { get; set; }
+        //public Employee Employee { get; set; }
+        //public DateTime? EndActualTime { get; set; }
+        //public DateTime? StartActualTime { get; set; }
+        //public Task LastTask { get; set; }
+        //public DateTime? DeadLine { get; set; }
+        //public DateTime? CreatedTime { get; set; }
+        //public string? ShortTitle { get; set; }
+        //public string FullTitle { get; set; }
+        //public int? StatusType { get; set; }
+        //public string Description { get; set; }
         public Employee SelectedTask { get; set; }
 
         public Employee SelectedEmployee { get; set; }
@@ -68,32 +75,36 @@ namespace ProjectOffice.UserControls
         {
             InitializeComponent();
             DataContext = this;
+            _isCreate = true;
+            TaskService.OldDetailedTask = this;
           
         }
 
         public DetailedTaskControl(DetailedTaskInfo info) : this()
         {
-            Id = info.Id;
-            Employee = info.Employee;
-            EndActualTime = info.EndActualTime;
-            StartActualTime = info.StartActualTime;
-            LastTask = info.LastTask;
-            DeadLine = info.DeadLine;
-            CreatedTime = info.CreatedTime;
-            ShortTitle = info.ShortTitle;
-            StatusType = info.StatusType;
-            Description = info.Description;
-            FullTitle = info.FullTitle;
-            if (DateTime.Now > DeadLine)
+            this.info = info;
+            //info.Id = info.Id;
+            //info.ProjectId = info.ProjectId;
+            //info.Employee = info.Employee;
+            //info.EndActualTime = info.EndActualTime;
+            //info.StartActualTime = info.StartActualTime;
+            //info.LastTask = info.LastTask;
+            //info.DeadLine = info.DeadLine;
+            //info.CreatedTime = info.CreatedTime;
+            //info.ShortTitle = info.ShortTitle;
+            //info.StatusType = info.StatusType;
+            //info.Description = info.Description;
+            //info.FullTitle = info.FullTitle;
+            if (DateTime.Now > info.DeadLine)
                 DeadLineDp.Foreground = new SolidColorBrush(Colors.Red);
-            CreateStatus();
+            _isCreate = false;
         }
 
         private void CreateStatus()
         {
             TaskStatusGrid.Children.Clear();
-            StatusType ??= 1;
-            TaskStatusGrid.Children.Add(new TaskStatusControl((TaskStatusService.TaskStatus)StatusType));
+            info.StatusType ??= 1;
+            TaskStatusGrid.Children.Add(new TaskStatusControl((TaskStatusService.TaskStatus)info.StatusType));
         }
 
         private void CreateStatus(int StatusType)
@@ -107,54 +118,70 @@ namespace ProjectOffice.UserControls
             var result = MessageBox.Show("Действительно удалить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 return;
-            //var task = App.context.Tasks.FirstOrDefault(x => x.Id == Id);
-            var task = await ApiService.GetTask(Id);
+            var task = await ApiService.GetTask(info.Id);
             if (task == null)
                 throw new Exception("Не удалось найти задачу по id");
-            await ApiService.DeleteTask(Id);
-            //try
-            //{
-            //    App.context.SaveChanges();
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("Не удалось сохранить");
-            //}
-            TaskService.CloseDetailTask();
+            await ApiService.DeleteTask(info.Id);
+            TaskService.Reset(info.ProjectId);
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             EmployeesCb.ItemsSource = await ApiService.GetEmployees();
             TaskCb.ItemsSource = await ApiService.GetTasks();
+            CreateStatus();
+            DataStackPanel.Children.Add(new UserControls.ProgramAddControl());
+            //EmployeesCb.SelectedItem = Employee;
+            //var sdfsd = new Entities.DbContextProjectOffice().Employees.Any(x=> x.Id == Employee.Id);
         }
 
-        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedEmployee == null)
-                return;
+            //if (SelectedEmployee == null)
+            //    return;
 
             MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 return;
-            Task task = new Entities.Task()
+            Models.DTO.TaskModel task = new()
             {
-                FullTitle = this.FullTitle,
-                FinishActualTime = EndActualTime,
-                StartActualTime = StartActualTime,
-                Deadline = DeadLine,
-                Description = this.Description,
-                ExecutiveEmployeed = SelectedEmployee,
-                InversePreviousTask = LastTask,
+                Id = info.Id,
+                ProjectId = TaskService.ProjectId,
+                FullTitle = info.FullTitle,
+                ShortTitle = info.ShortTitle,
+                FinishActualTime = info.EndActualTime,
+                StartActualTime = info.StartActualTime,
+                CreatedTime = DateTime.Now,
+                StatusId = (int)info.StatusType,
+                Deadline = info.DeadLine,
+                Description = info.Description,
+                ExecutiveEmployeedId = (EmployeesCb.SelectedItem as Employee).Id,
+                PreviousTaskId = info.LastTask == null ? null : info.LastTask.Id,
             };
-            TaskService.CloseDetailTask();
+            if (_isCreate == true)
+            {
+                await ApiService.PostTask(task);
+                MessageBox.Show("Сохранен");
+
+            }
+            else
+            {
+                await ApiService.PutTask(task);
+                MessageBox.Show("Сохранен");
+            }
+            //TaskService.CloseDetailTask();
+            TaskService.Reset(TaskService.ProjectId);
 
         }
 
+        private void LoadAttachments()
+        {
+            
+        }
         private void TaskStatusGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            StatusType = TaskStatusService.StatusNext((int)StatusType);
-            CreateStatus((int)StatusType);
+            info.StatusType = TaskStatusService.StatusNext((int)info.StatusType);
+            CreateStatus((int)info.StatusType);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjectOffice.Entities;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,8 @@ namespace ProjectOffice.Models
     public class DetailedTaskInfo
     {
         public Guid Id { get; set; }
-        public string? Employee { get; set; }
+        public Guid ProjectId { get; set; }
+        public Employee Employee { get; set; }
         public DateTime? EndActualTime { get; set; }
         public DateTime? StartActualTime { get; set; }
         public Entities.Task LastTask { get; set; }

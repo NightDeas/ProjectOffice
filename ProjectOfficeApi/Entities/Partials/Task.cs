@@ -11,6 +11,7 @@ namespace ProjectOfficeApi.Entities
 
         public Task(TaskRequest request)
         {
+            Id = request.Id;
             ProjectId = request.ProjectId;
             FullTitle = request.FullTitle;
             ShortTitle = request.ShortTitle;

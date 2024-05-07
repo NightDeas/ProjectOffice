@@ -28,7 +28,14 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="TaskListStackPanel" Grid.ColumnSpan="2" Orientation="Vertical"></StackPanel>
+            <Grid x:Name="TaskListGrid" Grid.ColumnSpan="2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="TaskListStackPanel" Orientation="Vertical"></StackPanel>
+                <Image Source="/Resources/iconAdd.jpg" HorizontalAlignment="Right" Grid.Row="2" x:Name="ImageAddTask" MouseLeftButtonDown="ImageAddTask_MouseLeftButtonDown" Stretch="Uniform"></Image>
+            </Grid>
             <Grid x:Name="DetailTaskGrid" Visibility="Collapsed" Grid.Column="1"></Grid>
         </Grid>
     </Grid>

@@ -47,6 +47,7 @@ public partial class DbContextProjectOffice : DbContext
     {
         modelBuilder.Entity<Attachment>(entity =>
         {
+            entity.Property(e => e.NamePhoto).HasMaxLength(255);
             entity.Property(e => e.Photo).HasColumnType("image");
         });
 

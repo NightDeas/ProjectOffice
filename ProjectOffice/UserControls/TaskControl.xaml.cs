@@ -60,21 +60,18 @@ namespace ProjectOffice.UserControls
 
         private async void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            TaskService.TaskPage.TaskListStackPanel.SetValue(Grid.ColumnSpanProperty, 1);
-            //var task = App.context.Tasks
-            //    .Include(x => x.ExecutiveEmployeed)
-            //    .Include(x => x.PreviousTask)
-            //    .FirstOrDefault(x => x.Id == (Guid)(sender as TaskControl).Tag);
             var task = await ApiService.GetTask((Guid)(sender as TaskControl).Tag);
             DetailedTaskInfo detailedTaskInfo = new DetailedTaskInfo()
             {
                 Id = task.Id,
+                ProjectId = task.ProjectId,
                 DeadLine = task.Deadline,
                 CreatedTime = task.CreatedTime,
-                Employee = task.ExecutiveEmployeed.FullName,
+                Employee = task.ExecutiveEmployeed,
                 EndActualTime = task.FinishActualTime,
                 LastTask = task.PreviousTask == null ? null : task.PreviousTask,
                 ShortTitle = task.ShortTitle,
+                FullTitle = task.FullTitle,
                 StartActualTime = task.StartActualTime,
                 StatusType = (int)task.Status.Type,
                 Description = task.Description

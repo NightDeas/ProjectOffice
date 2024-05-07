@@ -7,32 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="800" MouseLeftButtonDown="Control_MouseLeftButtonDown">
     <UserControl.Resources>
-            <Style TargetType="Border" x:Key="default">
-                <Setter Property="Background" Value="White"></Setter>
-            </Style>
+        <Style TargetType="Border" x:Key="default">
+            <Setter Property="Background" Value="White"></Setter>
+        </Style>
         <Style TargetType="Border" x:Key="selectTask" BasedOn="{StaticResource default}">
             <Setter Property="Background" Value="LightBlue"></Setter>
         </Style>
     </UserControl.Resources>
-    <Border x:Name="BorderMain" CornerRadius="10" BorderThickness="1" BorderBrush="Gray" Padding="5" Margin="5" > 
+    <Border x:Name="BorderMain" CornerRadius="10" BorderThickness="1" BorderBrush="Gray" Padding="5" Margin="5" >
         <Grid x:Name="MainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="125"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
             <TextBlock Foreground="Gray" Grid.Column="0" Text="{Binding ShortName, StringFormat='#{0}'}"><!--#PRO-111--></TextBlock>
-        <!--<Border x:Name="" Background="Red" Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="1">
+            <!--<Border x:Name="" Background="Red" Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="1">
             <Border.CornerRadius>5</Border.CornerRadius>
             <Label>открыта</Label>
         </Border>-->
-        <TextBlock Margin="10,0,0,0" TextWrapping="WrapWithOverflow" Grid.Column="2" Text="{Binding Title}"><!--Выполнить обновление антивапвпваап--></TextBlock>
+            <TextBlock Margin="10,0,0,0" TextWrapping="WrapWithOverflow" Grid.Column="2" Text="{Binding Title}"><!--Выполнить обновление антивапвпваап--></TextBlock>
             <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="3" Text="{Binding Employee.ShortName}"><!--Петров В. И--></TextBlock>
-            <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="4" Text="{Binding Date, StringFormat=dd.mm.yyyy hh:mm}"><!--01.07.2023 15:15--></TextBlock>
-        <Image x:Name="ImageNext" Source="\Resources\app_next_icon.png" Grid.Column="6"></Image>
-    </Grid>
+            <TextBlock Foreground="Gray" Margin="10,0,0,0" Grid.Column="4" Text="{Binding Date, StringFormat='dd.MM.yyyy'}"><!--01.07.2023 15:15--></TextBlock>
+            <Image x:Name="ImageNext" Source="\Resources\app_next_icon.png" Grid.Column="6"></Image>
+        </Grid>
     </Border>
 </UserControl>

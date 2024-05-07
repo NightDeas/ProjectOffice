@@ -32,6 +32,7 @@
     <None Remove="Resources\app_plus_icon.svg" />
     <None Remove="Resources\app_tasks_icon.png" />
     <None Remove="Resources\app_tasks_icon.svg" />
+    <None Remove="Resources\IconAdd.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +56,7 @@
     <Resource Include="Resources\app_plus_icon.svg" />
     <Resource Include="Resources\app_tasks_icon.png" />
     <Resource Include="Resources\app_tasks_icon.svg" />
+    <Resource Include="Resources\IconAdd.jpg" />
   </ItemGroup>
 
   <ItemGroup>
