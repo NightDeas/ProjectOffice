@@ -8,9 +8,21 @@ namespace ProjectOffice.Models.DTO
 {
     internal class AttachmentModel
     {
+        public int Id { get; set; }
         public string? Link { get; set; }
         public byte[] Photo { get; set; }
         public string? NamePhoto { get; set; }
         public float? SizeFile { get; set; }
+
+        public static Entities.Attachment ToDbModel(AttachmentModel model)
+        {
+            Entities.Attachment attachment = new Entities.Attachment()
+            {
+                Id = model.Id,
+                Link = model.Link,
+                Photo = model.Photo,
+            };
+            return attachment;
+        }
     }
 }

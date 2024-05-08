@@ -44,7 +44,7 @@ namespace ProjectOfficeApi.Controllers
             {
                 return BadRequest("Ошибка при сохранении в БД");
             }
-            return Ok();
+            return Ok(attachment.Id);
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)

@@ -103,9 +103,9 @@ namespace ProjectOffice.Services
             OldSelectTask.ImageNext.Visibility = Visibility.Visible;
         }
 
-        internal static void LoadAttachment(AttachmentModel model)
+        internal static void LoadAttachment(Entities.Attachment model)
         {
-            OldDetailedTask.DataStackPanel.Children.Add(new UserControls.ProgramControl(model.NamePhoto, (float)model.SizeFile));
+            OldDetailedTask.DataStackPanel.Children.Add(new UserControls.ProgramControl(model.NamePhoto, (float)model.SizeFile, model.Id));
         }
     }
 }

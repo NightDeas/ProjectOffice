@@ -9,9 +9,8 @@
     <Border CornerRadius="10" BorderThickness="1" BorderBrush="Gray" Padding="5" Margin="5">
         <Border.ContextMenu>
             <ContextMenu>
-                <MenuItem>
-                    <MenuItem Header="Удалить"></MenuItem>
-                </MenuItem>
+                <MenuItem Header="Просмотр" x:Name="ShowImageMI" Click="ShowImageMI_Click"></MenuItem>
+                <MenuItem Header="Удалить" x:Name="DeleteImageMI" Click="DeleteImageMI_Click"></MenuItem>
             </ContextMenu>
         </Border.ContextMenu>
         <Grid>
@@ -20,7 +19,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Grid.Column="0"></TextBlock>
-            <TextBlock Text="{Binding Size}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+            <TextBlock Text="{Binding Size, StringFormat={}{0} mb}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
         </Grid>
     </Border>
 </UserControl>

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,16 +82,23 @@ namespace ProjectOffice.Services
             return tasks;
         }
 
-        public static async Task PostAttachment(AttachmentModel model)
+        public static async Task<int> PostAttachment(AttachmentModel model)
         {
+            int id = 0;
             HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/Attachment",
                 new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                id = int.Parse(responseBody);
+            }
+            return id;
         }
 
         public static async Task<Entities.Attachment> GetAttachment(int id)
         {
             Entities.Attachment attachment = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task/{id}");
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Attachment/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();

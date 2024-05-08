@@ -51,6 +51,7 @@ namespace ProjectOffice.UserControls
         public Employee SelectedTask { get; set; }
 
         public Employee SelectedEmployee { get; set; }
+        public List<Employee> ObserversEmployee { get; set; } = new();
 
         private List<Employee> _employees;
 
@@ -67,6 +68,8 @@ namespace ProjectOffice.UserControls
             get { return _tasks; }
             set { _tasks = value; }
         }
+
+        private List<Entities.Attachment> _attachments;
 
 
 
@@ -131,15 +134,13 @@ namespace ProjectOffice.UserControls
             TaskCb.ItemsSource = await ApiService.GetTasks();
             CreateStatus();
             DataStackPanel.Children.Add(new UserControls.ProgramAddControl());
+            ObserversStackPanel.Children.Add(new UserControls.EmployeeAddControl());
             //EmployeesCb.SelectedItem = Employee;
             //var sdfsd = new Entities.DbContextProjectOffice().Employees.Any(x=> x.Id == Employee.Id);
         }
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            //if (SelectedEmployee == null)
-            //    return;
-
             MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 return;
@@ -176,7 +177,7 @@ namespace ProjectOffice.UserControls
 
         private void LoadAttachments()
         {
-            
+          
         }
         private void TaskStatusGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

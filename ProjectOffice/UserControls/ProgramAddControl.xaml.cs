@@ -34,15 +34,20 @@ namespace ProjectOffice.UserControls
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
-            byte[] bytes = UTF8Encoding.UTF8.GetBytes(fileDialog.FileName);
+            string filepath = fileDialog.FileName;
+            if (string.IsNullOrEmpty(filepath))
+                return;
+            byte[] bytes = File.ReadAllBytes(filepath);
+
             AttachmentModel model = new()
             {
                 Photo = bytes,
                 NamePhoto = System.IO.Path.GetFileName(fileDialog.FileName),
                 SizeFile = new FileInfo(fileDialog.FileName).Length/1024/1024,
             };
-            await ApiService.PostAttachment(model);
-            TaskService.LoadAttachment(model);
+            int idPhotoBD = await ApiService.PostAttachment(model);
+            var photoBD = await ApiService.GetAttachment(idPhotoBD);
+            TaskService.LoadAttachment(photoBD);
         }
     }
 }
