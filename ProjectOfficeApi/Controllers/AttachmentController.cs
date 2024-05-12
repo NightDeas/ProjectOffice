@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using System.Buffers.Text;
+using ProjectOffice.DataBase.Entities;
 
 namespace ProjectOfficeApi.Controllers
 {
@@ -10,10 +10,11 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class AttachmentController : ControllerBase
     {
-        Entities.DbContextProjectOffice _context;
+        //Entities.DbContextProjectOffice _context;
+        ProjectOffice.DataBase.Entities.DbContextProjectOffice _context;
         public AttachmentController()
         {
-            _context = new Entities.DbContextProjectOffice();
+            _context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
         }
 
 
@@ -28,7 +29,7 @@ namespace ProjectOfficeApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(AttachmentModel model)
         {
-            Entities.Attachment attachment = new()
+            Attachment attachment = new()
             {
                 Photo = model.Photo,
                 Link = model.Link,

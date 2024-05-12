@@ -6,14 +6,24 @@
              xmlns:local="clr-namespace:ProjectOffice.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Visibility" Value="Hidden"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=textTb, Path=Text}" Value="">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <TextBox VerticalContentAlignment="Center" x:Name="textTb" Margin="10,5" Height="30" TextChanged="TextBox_TextChanged">
+        <TextBox VerticalContentAlignment="Center" Text="" x:Name="textTb" Margin="10,5" Height="30">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"></Setter>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <Label HorizontalAlignment="Left" Margin="10,5" Visibility="{Binding HasText}" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="Gray">Введите для поиска</Label>
+        <Label x:Name="HintLabel" HorizontalAlignment="Left" Margin="10,5"  VerticalAlignment="Center" IsHitTestVisible="False" Foreground="Gray" Content="Введите для поиска"></Label>
     </Grid>
 </UserControl>

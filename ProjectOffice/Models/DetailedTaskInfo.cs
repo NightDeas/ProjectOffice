@@ -1,4 +1,4 @@
-﻿using ProjectOffice.Entities;
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -12,10 +12,10 @@ namespace ProjectOffice.Models
     {
         public Guid Id { get; set; }
         public Guid ProjectId { get; set; }
-        public Employee Employee { get; set; }
+        public ProjectOffice.DataBase.Entities.Employee Employee { get; set; }
         public DateTime? EndActualTime { get; set; }
         public DateTime? StartActualTime { get; set; }
-        public Entities.Task LastTask { get; set; }
+        public ProjectOffice.DataBase.Entities.Task LastTask { get; set; }
         public DateTime? DeadLine { get; set; }
         public DateTime? CreatedTime { get; set; }
         public string? ShortTitle { get; set; }

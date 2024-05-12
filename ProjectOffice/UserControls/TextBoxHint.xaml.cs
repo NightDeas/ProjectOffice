@@ -20,26 +20,9 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class TextBoxHint : UserControl
     {
-        private Visibility visibilityHint;
-
-        public Visibility VisibilityHint
-        {
-            get { return visibilityHint; }
-            set { visibilityHint = value; }
-        }
-
         public TextBoxHint()
         {
             InitializeComponent();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if ((sender as TextBox).Text.Length == 0)
-                VisibilityHint = Visibility.Visible;
-            else
-                VisibilityHint = Visibility.Collapsed;
-
         }
     }
 }

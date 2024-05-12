@@ -1,6 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 
-using ProjectOffice.Entities;
+
 using ProjectOffice.Models;
 using ProjectOffice.Pages;
 using ProjectOffice.Services;
@@ -23,7 +23,6 @@ using System.Windows.Shapes;
 
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-using Task = ProjectOffice.Entities.Task;
 
 namespace ProjectOffice.UserControls
 {
@@ -48,28 +47,28 @@ namespace ProjectOffice.UserControls
         //public string FullTitle { get; set; }
         //public int? StatusType { get; set; }
         //public string Description { get; set; }
-        public Employee SelectedTask { get; set; }
+        public ProjectOffice.DataBase.Entities.Employee SelectedTask { get; set; }
 
-        public Employee SelectedEmployee { get; set; }
-        public List<Employee> ObserversEmployee { get; set; } = new();
+        public ProjectOffice.DataBase.Entities.Employee SelectedEmployee { get; set; }
+        public List<ProjectOffice.DataBase.Entities.Employee> ObserversEmployee { get; set; } = new();
 
-        private List<Employee> _employees;
+        private List<ProjectOffice.DataBase.Entities.Employee> _employees;
 
-        public List<Employee> EmployeeList
+        public List<ProjectOffice.DataBase.Entities.Employee> EmployeeList
         {
             get { return _employees; }
             set { _employees = value; }
         }
 
-        private List<Entities.Task> _tasks;
+        private List<ProjectOffice.DataBase.Entities.Task> _tasks;
 
-        public List<Entities.Task> TaskList
+        public List<ProjectOffice.DataBase.Entities.Task> TaskList
         {
             get { return _tasks; }
             set { _tasks = value; }
         }
 
-        private List<Entities.Attachment> _attachments;
+        private List<ProjectOffice.DataBase.Entities.Attachment> _attachments;
 
 
 
@@ -156,7 +155,7 @@ namespace ProjectOffice.UserControls
                 StatusId = (int)info.StatusType,
                 Deadline = info.DeadLine,
                 Description = info.Description,
-                ExecutiveEmployeedId = (EmployeesCb.SelectedItem as Employee).Id,
+                ExecutiveEmployeedId = (EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee).Id,
                 PreviousTaskId = info.LastTask == null ? null : info.LastTask.Id,
             };
             if (_isCreate == true)

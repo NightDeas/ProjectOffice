@@ -14,9 +14,9 @@ namespace ProjectOffice.Models.DTO
         public string? NamePhoto { get; set; }
         public float? SizeFile { get; set; }
 
-        public static Entities.Attachment ToDbModel(AttachmentModel model)
+        public static ProjectOffice.DataBase.Entities.Attachment ToDbModel(AttachmentModel model)
         {
-            Entities.Attachment attachment = new Entities.Attachment()
+            ProjectOffice.DataBase.Entities.Attachment attachment = new ProjectOffice.DataBase.Entities.Attachment()
             {
                 Id = model.Id,
                 Link = model.Link,

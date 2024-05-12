@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using ProjectOffice.Entities;
+
 using ProjectOffice.Models;
 using ProjectOffice.Models.DTO;
 using ProjectOffice.Pages;
@@ -103,7 +103,7 @@ namespace ProjectOffice.Services
             OldSelectTask.ImageNext.Visibility = Visibility.Visible;
         }
 
-        internal static void LoadAttachment(Entities.Attachment model)
+        internal static void LoadAttachment(ProjectOffice.DataBase.Entities.Attachment model)
         {
             OldDetailedTask.DataStackPanel.Children.Add(new UserControls.ProgramControl(model.NamePhoto, (float)model.SizeFile, model.Id));
         }

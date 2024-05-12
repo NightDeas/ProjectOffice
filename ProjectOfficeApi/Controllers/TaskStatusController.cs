@@ -8,10 +8,10 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class TaskStatusController : ControllerBase
     {
-        private readonly Entities.DbContextProjectOffice context;
+        private readonly ProjectOffice.DataBase.Entities.DbContextProjectOffice context;
         public TaskStatusController()
         {
-            context = new Entities.DbContextProjectOffice();
+            context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
         }
 
         [HttpGet]

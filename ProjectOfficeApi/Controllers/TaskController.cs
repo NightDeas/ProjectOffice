@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using ProjectOffice.DataBase.Entities;
 
 namespace ProjectOfficeApi.Controllers
 {
@@ -9,7 +11,7 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly Entities.DbContextProjectOffice _context;
+        private readonly ProjectOffice.DataBase.Entities.DbContextProjectOffice _context;
 
         public TaskController()
         {
@@ -25,7 +27,7 @@ namespace ProjectOfficeApi.Controllers
             var list = await _context.Tasks
                 .Include(x => x.Status)
                 .Include(x => x.ExecutiveEmployeed)
-                //.Include(x => x.PreviousTask)
+            //.Include(x => x.PreviousTask)
             .ToListAsync();
             return Ok(list);
         }
@@ -53,7 +55,7 @@ namespace ProjectOfficeApi.Controllers
             var item = await _context.Tasks
                 .Include(x => x.ExecutiveEmployeed)
                 .Include(x => x.PreviousTask)
-                .Include(x=> x.Status)
+                .Include(x => x.Status)
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (item == null)
                 return NotFound();
@@ -67,7 +69,24 @@ namespace ProjectOfficeApi.Controllers
         {
             if (request == null)
                 return BadRequest();
-            Entities.Task task = new(request);
+            ProjectOffice.DataBase.Entities.Task task = new()
+            {
+                Id = request.Id,
+                ProjectId = request.ProjectId,
+                FullTitle = request.FullTitle,
+                ShortTitle = request.ShortTitle,
+                Description = request.Description,
+                ExecutiveEmployeedId = request.ExecutiveEmployeedId,
+                StatusId = request.StatusId,
+                CreatedTime = request.CreatedTime,
+                UpdatedTime = request.UpdatedTime,
+                DeletedTime = request.DeletedTime,
+                Deadline = request.Deadline,
+                StartActualTime = request.StartActualTime,
+                FinishActualTime = request.FinishActualTime,
+                PreviousTaskId = request.PreviousTaskId,
+                IsDelete = request.IsDelete,
+            };
             _context.Tasks.Add(task);
             try
             {
@@ -90,16 +109,31 @@ namespace ProjectOfficeApi.Controllers
         {
             if (request == null)
                 return BadRequest();
-            Entities.Task task = await _context.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            ProjectOffice.DataBase.Entities.Task task = await _context.Tasks.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (task == null)
                 return NotFound();
-            Entities.Task dbTask = new(request) {
-                Id = id
+            ProjectOffice.DataBase.Entities.Task dbTask = new()
+            {
+                Id = request.Id,
+                ProjectId = request.ProjectId,
+                FullTitle = request.FullTitle,
+                ShortTitle = request.ShortTitle,
+                Description = request.Description,
+                ExecutiveEmployeedId = request.ExecutiveEmployeedId,
+                StatusId = request.StatusId,
+                CreatedTime = request.CreatedTime,
+                UpdatedTime = request.UpdatedTime,
+                DeletedTime = request.DeletedTime,
+                Deadline = request.Deadline,
+                StartActualTime = request.StartActualTime,
+                FinishActualTime = request.FinishActualTime,
+                PreviousTaskId = request.PreviousTaskId,
+                IsDelete = request.IsDelete,
             };
             _context.Entry(dbTask).State = EntityState.Modified;
             try
             {
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -115,7 +149,7 @@ namespace ProjectOfficeApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            Entities.Task task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+            ProjectOffice.DataBase.Entities.Task task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
             if (task == null)
                 return NotFound();
             task.IsDelete = true;
@@ -164,7 +198,7 @@ namespace ProjectOfficeApi.Controllers
         public bool IsDelete { get; set; }
 
 
-        public TaskResponse(Entities.Task task)
+        public TaskResponse(ProjectOffice.DataBase.Entities.Task task)
         {
             Id = task.Id;
             ProjectId = task.ProjectId;

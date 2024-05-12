@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProjectOfficeApi.Entities;
+using ProjectOffice.DataBase.Entities;
+
 
 namespace ProjectOfficeApi.Controllers
 {
@@ -10,10 +11,10 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        Entities.DbContextProjectOffice context;
+        ProjectOffice.DataBase.Entities.DbContextProjectOffice context;
         public ProjectController()
         {
-            context = new Entities.DbContextProjectOffice();
+            context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
         }
 
         [HttpGet]

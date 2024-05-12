@@ -1,5 +1,4 @@
-﻿using ProjectOffice.Entities;
-using ProjectOffice.Pages;
+﻿using ProjectOffice.Pages;
 using ProjectOffice.Services;
 
 using System;
@@ -50,10 +49,10 @@ namespace ProjectOffice.UserControls
         {
             if ((sender as ComboBox).SelectedItem == null)
                 return;
-            if (TaskService.OldDetailedTask.ObserversEmployee.Any(x => x.Id == (EmployeesCb.SelectedItem as Employee).Id) == true)
+            if (TaskService.OldDetailedTask.ObserversEmployee.Any(x => x.Id == (EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee).Id) == true)
                 (sender as ComboBox).SelectedItem = null;
             else
-                TaskService.OldDetailedTask.ObserversEmployee.Add(EmployeesCb.SelectedItem as Employee);
+                TaskService.OldDetailedTask.ObserversEmployee.Add(EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee);
         }
 
         private void EmployeesCb_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
