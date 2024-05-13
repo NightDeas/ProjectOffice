@@ -47,12 +47,12 @@ namespace ProjectOffice.UserControls
 
         private void EmployeesCb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as ComboBox).SelectedItem == null)
-                return;
-            if (TaskService.OldDetailedTask.ObserversEmployee.Any(x => x.Id == (EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee).Id) == true)
-                (sender as ComboBox).SelectedItem = null;
-            else
-                TaskService.OldDetailedTask.ObserversEmployee.Add(EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee);
+            //if ((sender as ComboBox).SelectedItem == null)
+            //    return;
+            //if (TaskService.OldDetailedTask.ObserversEmployee.Any(x => x.Id == (EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee).Id) == true)
+            //    (sender as ComboBox).SelectedItem = null;
+            //else
+            //    TaskService.OldDetailedTask.ObserversEmployee.Add(EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee);
         }
 
         private void EmployeesCb_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

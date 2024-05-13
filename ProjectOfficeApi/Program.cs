@@ -34,7 +34,7 @@ namespace ProjectOfficeApi
 
             app.UseAuthorization();
 
-
+            app.MapDefaultControllerRoute();
             app.MapControllers();
 
             app.Run();

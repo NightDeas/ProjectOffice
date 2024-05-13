@@ -1,6 +1,5 @@
 ﻿using Microsoft.Identity.Client;
-
-
+using ProjectOffice.DataBase.Entities;
 using ProjectOffice.Models;
 using ProjectOffice.Pages;
 using ProjectOffice.Services;
@@ -79,7 +78,7 @@ namespace ProjectOffice.UserControls
             DataContext = this;
             _isCreate = true;
             TaskService.OldDetailedTask = this;
-          
+
         }
 
         public DetailedTaskControl(DetailedTaskInfo info) : this()
@@ -143,6 +142,7 @@ namespace ProjectOffice.UserControls
             MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 return;
+
             Models.DTO.TaskModel task = new()
             {
                 Id = info.Id,
@@ -161,6 +161,8 @@ namespace ProjectOffice.UserControls
             if (_isCreate == true)
             {
                 await ApiService.PostTask(task);
+                AddObservers();
+                //AddPrograms();
                 MessageBox.Show("Сохранен");
 
             }
@@ -174,10 +176,59 @@ namespace ProjectOffice.UserControls
 
         }
 
-        private void LoadAttachments()
+        private async void AddPrograms()
         {
-          
+            int[] programs = GetPrograms();
+            List<AttachmentsInTask> attachments = new List<AttachmentsInTask>();
+            foreach (var programId in programs)
+            {
+                await ApiService.PostAttachmentInTask(new AttachmentsInTask()
+                {
+                    TaskId = info.Id,
+                    AttachmentId = programId
+                });
+            }
         }
+
+        private int[] GetPrograms()
+        {
+            byte size = (byte)this.DataStackPanel.Children.Count;
+            int[] programs = new int[size];
+            for (int i = 0; i < size; i++)
+            {
+                programs[i] = (this.ObserversStackPanel.Children[i] as UserControls.ProgramControl).Id;
+            }
+            return programs;
+        }
+
+        private async void AddObservers()
+        {
+            var observersCb = GetComboBoxObserver();
+            foreach (var observer in observersCb)
+            {
+                Employee employee = (observer.SelectedItem as ProjectOffice.DataBase.Entities.Employee);
+                if (!TaskService.OldDetailedTask.ObserversEmployee.Any(x => x.Id == employee.Id))
+                    //TaskService.OldDetailedTask.ObserversEmployee.Add(employee);
+                    await ApiService.PostTaskObserveEmployee(new TaskObserveEmployee()
+                    {
+                        TaskId = info.Id,
+                        EmployeesId = employee.Id
+                    });
+            }
+        }
+
+        private List<System.Windows.Controls.ComboBox> GetComboBoxObserver()
+        {
+            int size = this.ObserversStackPanel.Children.Count - 1;
+            List<System.Windows.Controls.ComboBox> comboBoxes = new List<System.Windows.Controls.ComboBox>();
+            for (int i = 1; i < size; i++)
+            {
+                if (this.ObserversStackPanel.Children[i] is UserControls.EmployeeCreateControl control)
+                    comboBoxes.Add(control.EmployeesCb);
+            }
+            return comboBoxes;
+        }
+
         private void TaskStatusGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             info.StatusType = TaskStatusService.StatusNext((int)info.StatusType);
