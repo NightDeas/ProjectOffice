@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectOffice", "ProjectOff
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectOfficeApi", "ProjectOfficeApi\ProjectOfficeApi.csproj", "{2B806013-407C-4465-9978-254BFD7BA772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectOffice.DataBase", "DataBase\ProjectOffice.DataBase.csproj", "{D250A6EC-5508-4C57-B183-028062078294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectOffice.DataBase", "DataBase\ProjectOffice.DataBase.csproj", "{D250A6EC-5508-4C57-B183-028062078294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebProjectOffice", "WebProjectOffice\WebProjectOffice.csproj", "{691D62F6-D2E9-402E-8BBE-40D56413CC42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProjectOffice", "WebProjectOffice\WebProjectOffice.csproj", "{691D62F6-D2E9-402E-8BBE-40D56413CC42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

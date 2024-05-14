@@ -1,0 +1,35 @@
+﻿@page "/Dashboard"
+<h3>Dashboards</h3>
+@code {
+  int countEndTask = 0;
+}
+<style>
+    .block{
+        width: 300px;
+        height: 300px;
+        border: solid black;
+        padding: 10px;
+    }
+    .font-text{
+        font-size: 4rem;
+    }
+</style>
+
+<!-- order can be used for responsive cases as well with the help of .order-{sm|md|lg|xl|xxl}-{0|1|2|3|4|5} class -->
+<!-- align-content can be used for responsive cases as well with the help of .align-content-{sm|md|lg|xl|xxl}-{start|end|center|around|stretch} class -->
+<div class="d-flex align-content-start flex-wrap bd-highlight mb-3" style="height: 200px">
+    <div class="p-2 bd-highlight m-2 block">
+        <div>
+            <p class="text-center font-text fw-bold">@(countEndTask)</p>
+            <p class="text-center fs-4">Задач выполнено за сегодня</p>
+        </div>
+    </div>
+    <div class="p-2 bd-highlight m-2 block">
+        <p>Топ 5 Сотрудников по закрытым задачам</p>
+
+    </div>
+    <div class="p-2 bd-highlight m-2  block">Flex item</div>
+    <div class="p-2 bd-highlight m-2  block">Flex item</div>
+</div>
+
+

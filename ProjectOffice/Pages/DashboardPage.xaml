@@ -1,0 +1,76 @@
+﻿<Page x:Class="ProjectOffice.Pages.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ProjectOffice.Pages"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1000"
+      Title="DashboardPage">
+    <Page.Resources>
+        <Style TargetType="Border" x:Key="GridBorder">
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+            <Setter Property="Width" Value="300"></Setter>
+            <Setter Property="Height" Value="300"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Title">
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="White">
+        <WrapPanel Orientation="Horizontal">
+            <Border Style="{StaticResource GridBorder}">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock  TextWrapping="Wrap" TextAlignment="Center" FontSize="64" FontWeight="Bold" Text="{Binding CountEndTask, TargetNullValue=0}"></TextBlock>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="16">Задач выполнено за сегодня</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource GridBorder}">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Title}">ТОП 5 Сотрудников по закрытым задачам</TextBlock>
+                        <DataGrid ItemsSource="{Binding TopEmployeeList}" AutoGenerateColumns="False" Background="White">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="#"></DataGridTextColumn>
+                                <DataGridTextColumn Header="ФИО" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Кол-во"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource GridBorder}">
+                <Grid>
+                    <StackPanel x:Name="stackpanel">
+                        <TextBlock Style="{StaticResource Title}">График задач по статусам</TextBlock>
+                        <lvc:StackedColumnSeries Values="{Binding SeriesViews}"></lvc:StackedColumnSeries>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource GridBorder}">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Title}">Экспорт данных</TextBlock>
+                        <TextBlock TextDecorations="Underline" FontWeight="Bold">Все задачи</TextBlock>
+                        <TextBlock TextDecorations="Underline" FontWeight="Bold">Все сотрудники</TextBlock>
+                        <TextBlock TextDecorations="Underline" FontWeight="Bold">Закрытые задачи</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource GridBorder}" Width="450">
+                <Grid>
+                    <TextBlock  Style="{StaticResource Title}">Тепловая диаграмма</TextBlock>
+                </Grid>
+            </Border>
+        </WrapPanel>
+    </Grid>
+</Page>
