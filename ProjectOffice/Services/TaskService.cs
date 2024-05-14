@@ -76,13 +76,13 @@ namespace ProjectOffice.Services
 
         public static void OpenDetailTask()
         {
-            TaskPage.TaskListGrid.SetValue(Grid.ColumnSpanProperty, 1);
+            TaskPage.TaskListScroolViewer.SetValue(Grid.ColumnSpanProperty, 1);
         }
         public static void Reset(Guid projectId)
         {
             CloseDetailTask();
             LoadTask(projectId);
-            TaskPage.TaskListGrid.SetValue(Grid.ColumnSpanProperty, 2);
+            TaskPage.TaskListScroolViewer.SetValue(Grid.ColumnSpanProperty, 2);
         }
 
 

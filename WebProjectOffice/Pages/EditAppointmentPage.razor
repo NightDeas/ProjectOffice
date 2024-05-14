@@ -4,29 +4,44 @@
 <RadzenTemplateForm TItem="Appointment" Data="@model" Submit=@OnSubmit>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Text" />
+            <RadzenLabel Text="Название" />
         </div>
         <div class="col">
-            <RadzenTextBox @bind-Value="@model.Text" Name="Text" />
-            <RadzenRequiredValidator Text="Title is required" Component="Text" />
+            <RadzenTextBox ReadOnly="true" @bind-Value="@model.Text" Name="Text" />
         </div>
     </div>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="Start" />
+            <RadzenLabel  Text="Короткое название:" />
+        </div>
+        <div class="col">
+            <RadzenTextBox ReadOnly="true" @bind-Value="@model.ShortTitle" Name="ShortTitle" />
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Описание:" />
+        </div>
+        <div class="col">
+            <RadzenTextBox ReadOnly="true" @bind-Value="@model.Description" Name="Description" />
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 16px">
+        <div class="col-md-3">
+            <RadzenLabel Text="Дата начала:" />
         </div>
         <div class="col">
             <RadzenDatePicker @bind-Value="@model.Start" Name="Start" ShowTime="true" />
-            <RadzenRequiredValidator Text="Start is required" Component="Start" />
+            <RadzenRequiredValidator Text="Обязательное поле" Component="Start" />
         </div>
     </div>
     <div class="row" style="margin-bottom: 16px">
         <div class="col-md-3">
-            <RadzenLabel Text="End" />
+            <RadzenLabel Text="Дата конца:" />
         </div>
         <div class="col">
             <RadzenDatePicker Name="End" @bind-Value="@model.End" ShowTime="true" />
-            <RadzenRequiredValidator Component="End" Text="End is required" />
+            <RadzenRequiredValidator Text="Обязательное поле" Component="End" />
         </div>
     </div>
     <div class="row">

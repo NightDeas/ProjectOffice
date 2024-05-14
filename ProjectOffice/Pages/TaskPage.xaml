@@ -28,14 +28,16 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="TaskListGrid" Grid.ColumnSpan="2" >
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <StackPanel x:Name="TaskListStackPanel" Orientation="Vertical"></StackPanel>
-                <Image Source="/Resources/iconAdd.jpg" HorizontalAlignment="Right" Grid.Row="2" x:Name="ImageAddTask" MouseLeftButtonDown="ImageAddTask_MouseLeftButtonDown" Stretch="Uniform"></Image>
-            </Grid>
+            <ScrollViewer x:Name="TaskListScroolViewer" Grid.ColumnSpan="2" >
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="TaskListStackPanel" Orientation="Vertical"></StackPanel>
+                    <Image Source="/Resources/iconAdd.jpg" HorizontalAlignment="Right" Grid.Row="2" x:Name="ImageAddTask" MouseLeftButtonDown="ImageAddTask_MouseLeftButtonDown" Stretch="Uniform"></Image>
+                </Grid>
+            </ScrollViewer>
             <Grid x:Name="DetailTaskGrid" Visibility="Collapsed" Grid.Column="1"></Grid>
         </Grid>
     </Grid>

@@ -28,6 +28,7 @@ namespace ProjectOfficeApi.Controllers
                 .Include(x => x.Status)
                 .Include(x => x.ExecutiveEmployeed)
             //.Include(x => x.PreviousTask)
+            .Where(x=> x.IsDelete == false)
             .ToListAsync();
             return Ok(list);
         }
