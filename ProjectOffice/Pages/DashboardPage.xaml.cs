@@ -27,6 +27,7 @@ using LiveCharts.Dtos;
 using ProjectOffice.Services;
 using LiveCharts.Definitions.Series;
 using LiveCharts.Helpers;
+using System.Collections.ObjectModel;
 
 namespace ProjectOffice.Pages
 {
@@ -35,8 +36,9 @@ namespace ProjectOffice.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
+        public SeriesCollection Series { get; set; }
         private Guid _projectId;
-        private int countEndTask;
+        private int countEndTask = 0;
 
         public int CountEndTask { get => countEndTask; set => countEndTask = value; }
         public DashboardPage()
@@ -54,20 +56,16 @@ namespace ProjectOffice.Pages
         {
             CountEndTask = await ApiService.GetHistoryChangeStatusOnDay();
             List<ProjectOffice.DataBase.Entities.Task> tasks = await ApiService.GetTasks(_projectId);
-            var statuses = from task in tasks
-                           group task by task.StatusId;
-            List<int> result = new List<int>();
-            foreach (var item in statuses)
-            {
-                result.Add(item.Count());
-            }
-            SeriesCollection series = new SeriesCollection() {
-                new PieSeries()
+            var groupedEntities = tasks.GroupBy(e => e.StatusId).Select(g => g.Count());
+            List<int> counts = groupedEntities.ToList();
+            SeriesCollection series = new SeriesCollection
                 {
-                    Values = new ChartValues<int>(result)
-                }
-            };
-           
+                    new PieSeries
+                    {
+                        Values = new ChartValues<int>{1,2,2,2}
+                    },
+                };
+            Series = series;    
         }
     }
 }
