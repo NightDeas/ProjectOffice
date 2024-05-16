@@ -14,20 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using LiveCharts;
-using LiveCharts.Wpf;
-using LiveCharts.Configurations;
-using LiveCharts.SeriesAlgorithms;
-using LiveCharts.Defaults;
-using LiveCharts.Definitions;
-using LiveCharts.Maps;
-using LiveCharts.Dtos;
 
 
 using ProjectOffice.Services;
 using LiveCharts.Definitions.Series;
 using LiveCharts.Helpers;
 using System.Collections.ObjectModel;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView.Extensions;
+using ProjectOffice.Models;
+using ProjectOffice.UserControls;
+using System.Diagnostics;
 
 namespace ProjectOffice.Pages
 {
@@ -36,15 +34,47 @@ namespace ProjectOffice.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
-        public SeriesCollection Series { get; set; }
         private Guid _projectId;
         private int countEndTask = 0;
+        private IEnumerable<ISeries> series;
 
+        public ViewModel Model { get; set; } = new();
         public int CountEndTask { get => countEndTask; set => countEndTask = value; }
         public DashboardPage()
         {
             InitializeComponent();
             LoadData();
+            CreatePieChart();
+            DataContext = this;
+        }
+
+        private async void CreatePieChart()
+        {
+            var tasks = await ApiService.GetTasks(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect));
+            Dictionary<string, int> group = new();
+            foreach (var task in tasks)
+            {
+                if (!group.ContainsKey(task.Status.Name))
+                {
+                    group[task.Status.Name] = 0;
+                }
+                group[task.Status.Name]++;
+            }
+            List<ISeries> series = new List<ISeries>();
+            foreach (var item in group)
+            {
+                series.Add(new PieSeries<int>
+                {
+                    Name = item.Key,
+                    Values = new int[] { item.Value}
+                });
+            }
+            PieChartControl pieChartControl = new UserControls.PieChartControl(new ViewModel()
+            {
+                Series = series
+            });
+            pieChartControl.SetValue(Grid.RowProperty, 1);
+            ChartPieGrid.Children.Add(pieChartControl);
         }
 
         public DashboardPage(Guid ProjectId) : this()
@@ -58,14 +88,6 @@ namespace ProjectOffice.Pages
             List<ProjectOffice.DataBase.Entities.Task> tasks = await ApiService.GetTasks(_projectId);
             var groupedEntities = tasks.GroupBy(e => e.StatusId).Select(g => g.Count());
             List<int> counts = groupedEntities.ToList();
-            SeriesCollection series = new SeriesCollection
-                {
-                    new PieSeries
-                    {
-                        Values = new ChartValues<int>{1,2,2,2}
-                    },
-                };
-            Series = series;    
         }
     }
 }
