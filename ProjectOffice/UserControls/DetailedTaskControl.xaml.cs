@@ -169,6 +169,11 @@ namespace ProjectOffice.UserControls
             else
             {
                 await ApiService.PutTask(task);
+                await ApiService.PostHistoryChangeStatus(new HistoryChangeStatus()
+                {
+                    TaskId = task.Id,
+                    StatusId = task.StatusId
+                });
                 MessageBox.Show("Сохранен");
             }
             //TaskService.CloseDetailTask();

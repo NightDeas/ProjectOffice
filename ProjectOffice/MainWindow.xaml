@@ -29,7 +29,7 @@
         </Grid>
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Background="DarkBlue">
             <StackPanel>
-                <Image Source="\Resources\app_dasboard_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+                <Image Source="\Resources\app_dasboard_icon.png" Style="{StaticResource ImageInStackPanel}" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
                 <Image Source="\Resources\app_tasks_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
                 <Image Source="\Resources\app_cal_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
             </StackPanel>

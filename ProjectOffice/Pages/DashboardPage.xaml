@@ -29,7 +29,7 @@
             <Border Style="{StaticResource GridBorder}">
                 <Grid>
                     <StackPanel>
-                        <TextBlock  TextWrapping="Wrap" TextAlignment="Center" FontSize="64" FontWeight="Bold" Text="{Binding CountEndTask, TargetNullValue=0}"></TextBlock>
+                        <TextBlock  TextWrapping="Wrap" TextAlignment="Center" FontSize="64" FontWeight="Bold" Text="{Binding CountEndTask}"></TextBlock>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="16">Задач выполнено за сегодня</TextBlock>
                     </StackPanel>
                 </Grid>
@@ -52,7 +52,7 @@
                 <Grid>
                     <StackPanel x:Name="stackpanel">
                         <TextBlock Style="{StaticResource Title}">График задач по статусам</TextBlock>
-                        <lvc:StackedColumnSeries Values="{Binding SeriesViews}"></lvc:StackedColumnSeries>
+                        <lvc:PieChart></lvc:PieChart>
                     </StackPanel>
                 </Grid>
             </Border>

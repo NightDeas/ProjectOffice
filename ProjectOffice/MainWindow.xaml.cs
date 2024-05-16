@@ -46,5 +46,10 @@ namespace ProjectOffice
             await Services.MenuSerivce.LoadProjects(this);
             await Services.MenuSerivce.AutoSelectProject(this);
         }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            App.mainWindow.FrameMain.Navigate(new Pages.DashboardPage(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect)));
+        }
     }
 }

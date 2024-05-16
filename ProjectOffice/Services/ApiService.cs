@@ -23,6 +23,82 @@ namespace ProjectOffice.Services
         private static HttpClient client = new HttpClient();
 
 
+
+
+        public static async Task<List<ProjectOffice.DataBase.Entities.HistoryChangeStatus>> GetHistoryChangeStatus()
+        {
+            List<ProjectOffice.DataBase.Entities.HistoryChangeStatus> HistoryChangeStatus = new();
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/HistoryChangeStatus");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                HistoryChangeStatus = JsonConvert.DeserializeObject<List<ProjectOffice.DataBase.Entities.HistoryChangeStatus>>(responseBody);
+            }
+            return HistoryChangeStatus;
+        }
+
+        public static async Task<int> GetHistoryChangeStatusOnDay()
+        {
+            int HistoryChangeStatus = 0;
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/HistoryChangeStatus/today");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                HistoryChangeStatus = JsonConvert.DeserializeObject<int>(responseBody);
+            }
+            return HistoryChangeStatus;
+        }
+
+        public static async Task<ProjectOffice.DataBase.Entities.HistoryChangeStatus> GetHistoryChangeStatus(int id)
+        {
+            ProjectOffice.DataBase.Entities.HistoryChangeStatus HistoryChangeStatus = new();
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/HistoryChangeStatus/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                HistoryChangeStatus = JsonConvert.DeserializeObject<ProjectOffice.DataBase.Entities.HistoryChangeStatus>(responseBody);
+            }
+            return HistoryChangeStatus;
+        }
+
+        public static async Task<int> PostHistoryChangeStatus(ProjectOffice.DataBase.Entities.HistoryChangeStatus model)
+        {
+            int id = 0;
+            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/HistoryChangeStatus",
+                new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                int.TryParse(responseBody, out id);
+            }
+            return id;
+        }
+
+        public static async System.Threading.Tasks.Task PutHistoryChangeStatus(HistoryChangeStatus model)
+        {
+            //HttpResponseMessage response = await client.PutAsync($"{URL_adress}/api/Task", new StringContent(JsonConvert.SerializeObject(task)));
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    string responseBody = await response.Content.ReadAsStringAsync();
+            //}
+            var jsonContent = System.Text.Json.JsonSerializer.Serialize(model);
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{URL_adress}/api/HistoryChangeStatus/{model.Id}");
+            request.Content = new StringContent(jsonContent, null, "application/json");
+            var response = await client.SendAsync(request);
+            var jsonText = await response.Content.ReadAsStringAsync();
+        }
+
+        public static async System.Threading.Tasks.Task DeleteHistoryChangeStatus(int id)
+        {
+            //Entities.Task task = new();
+            HttpResponseMessage reponse = await client.DeleteAsync($"{URL_adress}/api/HistoryChangeStatus/{id}");
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    string responseBody = await response.Content.ReadAsStringAsync();
+            //    task = JsonConvert.DeserializeObject<Entities.Task>(responseBody);
+            //}
+        }
+
         public static async Task<List<ProjectOffice.DataBase.Entities.TaskObserveEmployee>> GetTaskObserveEmployees()
         {
             List<ProjectOffice.DataBase.Entities.TaskObserveEmployee> TaskObserveEmployee = new();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,17 @@ using System.Windows.Shapes;
 
 using LiveCharts;
 using LiveCharts.Wpf;
+using LiveCharts.Configurations;
+using LiveCharts.SeriesAlgorithms;
+using LiveCharts.Defaults;
+using LiveCharts.Definitions;
+using LiveCharts.Maps;
+using LiveCharts.Dtos;
+
+
+using ProjectOffice.Services;
+using LiveCharts.Definitions.Series;
+using LiveCharts.Helpers;
 
 namespace ProjectOffice.Pages
 {
@@ -23,21 +35,39 @@ namespace ProjectOffice.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
-        SeriesCollection SeriesViews { get; set; }
+        private Guid _projectId;
+        private int countEndTask;
+
+        public int CountEndTask { get => countEndTask; set => countEndTask = value; }
         public DashboardPage()
         {
             InitializeComponent();
-            LiveCharts.SeriesCollection seriesViews = new LiveCharts.SeriesCollection() {
-                new LineSeries
+            LoadData();
+        }
+
+        public DashboardPage(Guid ProjectId) : this()
+        {
+            _projectId = ProjectId;
+        }
+
+        private async void LoadData()
+        {
+            CountEndTask = await ApiService.GetHistoryChangeStatusOnDay();
+            List<ProjectOffice.DataBase.Entities.Task> tasks = await ApiService.GetTasks(_projectId);
+            var statuses = from task in tasks
+                           group task by task.StatusId;
+            List<int> result = new List<int>();
+            foreach (var item in statuses)
+            {
+                result.Add(item.Count());
+            }
+            SeriesCollection series = new SeriesCollection() {
+                new PieSeries()
                 {
-                    Values = new LiveCharts.ChartValues<double>{1,3,4}
-                },
-                new ColumnSeries
-                {
-                    Values = new LiveCharts.ChartValues<double>{1,3,3,3,3,3}
+                    Values = new ChartValues<int>(result)
                 }
             };
-            SeriesViews = seriesViews;
+           
         }
     }
 }
