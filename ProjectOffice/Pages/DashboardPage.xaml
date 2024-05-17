@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ProjectOffice.Pages"
-      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF" xmlns:usercontrols="clr-namespace:ProjectOffice.UserControls" xmlns:usercontrols1="clr-namespace:ProjectOffice.UserControls"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1000"
       Title="DashboardPage">
@@ -29,7 +29,7 @@
             <Border Style="{StaticResource GridBorder}">
                 <Grid>
                     <StackPanel>
-                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="64" FontWeight="Bold" Text="{Binding CountEndTask}"></TextBlock>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="64" FontWeight="Bold" Text="{Binding Data.CountEndTask}"></TextBlock>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="16">Задач выполнено за сегодня</TextBlock>
                     </StackPanel>
                 </Grid>
@@ -38,11 +38,11 @@
                 <Grid>
                     <StackPanel>
                         <TextBlock Style="{StaticResource Title}">ТОП 5 Сотрудников по закрытым задачам</TextBlock>
-                        <DataGrid ItemsSource="{Binding TopEmployeeList}" AutoGenerateColumns="False" Background="White">
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding Data.TopEmployee}" AutoGenerateColumns="False" Background="White">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="#"></DataGridTextColumn>
-                                <DataGridTextColumn Header="ФИО" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Кол-во"></DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Key}" Header="ФИО" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Value}" Header="Кол-во"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -68,8 +68,12 @@
                 </Grid>
             </Border>
             <Border Style="{StaticResource GridBorder}" Width="450">
-                <Grid>
-                    <TextBlock  Style="{StaticResource Title}">Тепловая диаграмма</TextBlock>
+                <Grid x:Name="DashBoardGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Style="{StaticResource Title}">Тепловая диаграмма</TextBlock>
                 </Grid>
             </Border>
         </WrapPanel>

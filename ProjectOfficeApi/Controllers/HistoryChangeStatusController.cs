@@ -31,8 +31,8 @@ namespace ProjectOfficeApi.Controllers
             return Ok(await _context.HistoryChangeStatuses.ToListAsync());
         }
 
-        [HttpGet("today")]
-        public async Task<IActionResult> GetHistoryChangeStatuseEndOnDay()
+        [HttpGet("today/{projectId:Guid}")]
+        public async Task<IActionResult> GetHistoryChangeStatuseEndOnDay(Guid projectId)
         {
             DateTime now = DateTime.Today;
             if (_context.HistoryChangeStatuses == null)
@@ -40,7 +40,12 @@ namespace ProjectOfficeApi.Controllers
                 return NotFound();
             }
             return Ok(await _context.HistoryChangeStatuses
-                .Where(x => x.ChangeTime.Month == now.Month && x.ChangeTime.Year == now.Year && x.ChangeTime.Day == now.Day && x.StatusId == 5)
+                .Include(x=> x.Task)
+                .Where(x => x.ChangeTime.Month == now.Month &&
+                x.ChangeTime.Year == now.Year &&
+                x.ChangeTime.Day == now.Day &&
+                x.StatusId == 5 &&
+                x.Task.ProjectId == projectId)
                 .CountAsync());
         }
 

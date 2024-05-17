@@ -26,6 +26,9 @@ using LiveChartsCore.SkiaSharpView.Extensions;
 using ProjectOffice.Models;
 using ProjectOffice.UserControls;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace ProjectOffice.Pages
 {
@@ -35,24 +38,31 @@ namespace ProjectOffice.Pages
     public partial class DashboardPage : Page
     {
         private Guid _projectId;
-        private int countEndTask = 0;
+        
         private IEnumerable<ISeries> series;
-
+        List<ProjectOffice.DataBase.Entities.Task> Tasks;
         public ViewModel Model { get; set; } = new();
-        public int CountEndTask { get => countEndTask; set => countEndTask = value; }
+        public DashBoardPageData Data { get; set; } = new();
+
         public DashboardPage()
         {
             InitializeComponent();
             LoadData();
-            CreatePieChart();
+
             DataContext = this;
         }
 
-        private async void CreatePieChart()
+        private async Task CreateDashBoard()
         {
-            var tasks = await ApiService.GetTasks(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect));
+            UserControls.DashBoardControl dashBoard = new(Tasks);
+            dashBoard.SetValue(Grid.RowProperty, 2);
+            DashBoardGrid.Children.Add(dashBoard);
+        }
+
+        private async Task CreatePieChart()
+        {
             Dictionary<string, int> group = new();
-            foreach (var task in tasks)
+            foreach (var task in Tasks)
             {
                 if (!group.ContainsKey(task.Status.Name))
                 {
@@ -66,7 +76,7 @@ namespace ProjectOffice.Pages
                 series.Add(new PieSeries<int>
                 {
                     Name = item.Key,
-                    Values = new int[] { item.Value}
+                    Values = new int[] { item.Value }
                 });
             }
             PieChartControl pieChartControl = new UserControls.PieChartControl(new ViewModel()
@@ -77,17 +87,42 @@ namespace ProjectOffice.Pages
             ChartPieGrid.Children.Add(pieChartControl);
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
         public DashboardPage(Guid ProjectId) : this()
         {
             _projectId = ProjectId;
         }
 
-        private async void LoadData()
+        private async Task LoadData()
         {
-            CountEndTask = await ApiService.GetHistoryChangeStatusOnDay();
-            List<ProjectOffice.DataBase.Entities.Task> tasks = await ApiService.GetTasks(_projectId);
-            var groupedEntities = tasks.GroupBy(e => e.StatusId).Select(g => g.Count());
-            List<int> counts = groupedEntities.ToList();
+            Guid projectId = Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect);
+            Tasks = await ApiService.GetTasks(projectId);
+            Data.CountEndTask = await ApiService.GetHistoryChangeStatusOnDay(projectId);
+            //var groupedEntities = Tasks.GroupBy(e => e.StatusId).Select(g => g.Count());
+            var groupedEndTaskEmployee = Tasks.GroupBy(e => e.ExecutiveEmployeedId).Select(g => g.Count());
+            //List<int> counts = groupedEntities.ToList();
+            await CreatePieChart();
+            await CreateDashBoard();
+            await CreateTopEmployee();
+        }
+
+        private async Task CreateTopEmployee()
+        {
+            var groupedEmployeeEndTask = Tasks.GroupBy(x => x.ExecutiveEmployeedId).Select(x => x.Count());
+            SortedDictionary<string, int> countEndTask = new();
+            foreach (var task in Tasks)
+            {
+                if (!countEndTask.ContainsKey(task.ExecutiveEmployeed.FullName))
+                    countEndTask[task.ExecutiveEmployeed.FullName] = 0;
+                countEndTask[task.ExecutiveEmployeed.FullName]++;
+            }
+            Data.TopEmployee = countEndTask.ToDictionary(x => x.Key, y => y.Value);
         }
     }
 }

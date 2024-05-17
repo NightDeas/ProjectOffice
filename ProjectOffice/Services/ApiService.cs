@@ -37,10 +37,10 @@ namespace ProjectOffice.Services
             return HistoryChangeStatus;
         }
 
-        public static async Task<int> GetHistoryChangeStatusOnDay()
+        public static async Task<int> GetHistoryChangeStatusOnDay(Guid projectId)
         {
             int HistoryChangeStatus = 0;
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/HistoryChangeStatus/today");
+            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/HistoryChangeStatus/today/{projectId}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
