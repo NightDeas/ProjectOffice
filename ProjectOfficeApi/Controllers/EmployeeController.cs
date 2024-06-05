@@ -9,11 +9,11 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly ProjectOffice.DataBase.Entities.DbContextProjectOffice context;
+        private readonly ProjectOffice.DataBase.Entities.Context context;
 
         public EmployeeController()
         {
-            context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
+            context = new ProjectOffice.DataBase.Entities.Context();
         }
 
         [HttpGet]

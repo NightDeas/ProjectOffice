@@ -13,9 +13,9 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class TaskObserveEmployeesController : ControllerBase
     {
-        private readonly DbContextProjectOffice _context;
+        private readonly Context _context;
 
-        public TaskObserveEmployeesController(DbContextProjectOffice context)
+        public TaskObserveEmployeesController(Context context)
         {
             _context = context;
         }

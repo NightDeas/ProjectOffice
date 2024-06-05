@@ -34,6 +34,6 @@ namespace ProjectOffice.Models.DTO
         public DateTime? FinishActualTime { get; set; }
 
         public Guid? PreviousTaskId { get; set; }
-        public bool IsDelete { get; set; }
+        public bool? IsDelete { get; set; }
     }
 }

@@ -58,15 +58,14 @@ namespace ProjectOffice.UserControls
         private void Fill(List<ProjectOffice.DataBase.Entities.Task> tasks)
         {
             var dictionary = CreateDictionary(tasks);
-            //int month = new Random().Next(1,12);
-            //DateOnly dateOnly = new DateOnly(2023, month, 15);
             int numberTask = 0;
-            FillMonth(dictionary.Keys.First());
+            FillMonth();
             for (int i = 0; i < dashboard.ColumnDefinitions.Count; i++)
             {
+                // y = 0 - шапка(указаны месяцы)
                 for (int y = 1; y < dashboard.RowDefinitions.Count; y++)
                 {
-                    var result = dictionary.FirstOrDefault(x => x.Key == StartDate);
+                    var result = dictionary.FirstOrDefault(x => x.Key == StartDate.Date);
                     UserControls.DashBoardDayControl control = new(StartDate, result.Value);
                     control.SetValue(Grid.ColumnProperty, i);
                     control.SetValue(Grid.RowProperty, y);
@@ -76,8 +75,9 @@ namespace ProjectOffice.UserControls
             }
         }
 
-        private void FillMonth(DateTime date)
+        private void FillMonth()
         {
+            DateTime date = DateTime.Now;
             int selectMonth = date.Month - 1;
             StartDate = date.AddYears(-1);
             for (int i = 0; i < MonthInDashboard.Length; i++)
@@ -86,18 +86,8 @@ namespace ProjectOffice.UserControls
                 if (selectMonth >= 12)
                     selectMonth = 0;
             }
-            FillTagInGrid();
         }
 
-        private void FillTagInGrid()
-        {
-            for (int i = 0; i < dashboard.RowDefinitions.Count; i++)
-            {
-                for (int y = 0; y < dashboard.ColumnDefinitions.Count; y++)
-                {
-                    
-                }
-            }
-        }
+      
     }
 }

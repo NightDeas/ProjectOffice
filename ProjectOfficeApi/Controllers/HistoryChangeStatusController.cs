@@ -13,11 +13,11 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class HistoryChangeStatusController : ControllerBase
     {
-        private readonly DbContextProjectOffice _context;
+        private readonly Context _context;
 
         public HistoryChangeStatusController()
         {
-            _context = new DbContextProjectOffice();
+            _context = new Context();
         }
 
         // GET: api/HistoryChangeStatus

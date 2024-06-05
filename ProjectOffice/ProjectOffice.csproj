@@ -9,6 +9,8 @@
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
     <StartupObject>ProjectOffice.App</StartupObject>
+    <PackageIcon>1667581075_12-sportishka-com-p-mashina-rodster-oboi-15.jpg</PackageIcon>
+    <ApplicationIcon>1667581075_12-sportishka-com-p-mashina-rodster-oboi-15.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,6 +20,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Types\**" />
+    <EmbeddedResource Remove="Types\**" />
+    <None Remove="Types\**" />
+    <Page Remove="Types\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\app_cal_icon.png" />
@@ -33,10 +42,6 @@
     <None Remove="Resources\app_tasks_icon.png" />
     <None Remove="Resources\app_tasks_icon.svg" />
     <None Remove="Resources\IconAdd.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Types\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,10 +11,10 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        ProjectOffice.DataBase.Entities.DbContextProjectOffice context;
+        ProjectOffice.DataBase.Entities.Context context;
         public ProjectController()
         {
-            context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
+            context = new ProjectOffice.DataBase.Entities.Context();
         }
 
         [HttpGet]

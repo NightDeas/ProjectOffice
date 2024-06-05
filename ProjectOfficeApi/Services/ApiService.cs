@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 
 using ProjectOffice.DataBase.Entities;
@@ -18,12 +19,25 @@ namespace ProjectOfficeApi.Services
 {
     public static class ApiService
     {
-        public const string URL_adress = "https://localhost:7197";
-        private static HttpClient client = new HttpClient();
+        public const string _url_adress = "https://localhost:7197";
+        private static HttpClient _client = new HttpClient();
+
+        public static async Task<User> GetUser(Guid Id)
+        {
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Users/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                User user = JsonConvert.DeserializeObject<User>(responseBody);
+                return user;
+            }
+            return null;
+        }
+
         public static async Task<List<ProjectOffice.DataBase.Entities.TaskObserveEmployee>> GetTaskObserveEmployees()
         {
             List<ProjectOffice.DataBase.Entities.TaskObserveEmployee> TaskObserveEmployee = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/TaskObserveEmployees");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/TaskObserveEmployees");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -35,7 +49,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.TaskObserveEmployee> GetTaskObserveEmployee(int id)
         {
             ProjectOffice.DataBase.Entities.TaskObserveEmployee TaskObserveEmployee = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/TaskObserveEmployees/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/TaskObserveEmployees/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -47,7 +61,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<int> PostTaskObserveEmployee(ProjectOffice.DataBase.Entities.TaskObserveEmployee model)
         {
             int id = 0;
-            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/TaskObserveEmployees",
+            HttpResponseMessage response = await _client.PostAsync($"{_url_adress}/api/TaskObserveEmployees",
                 new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
             if (response.IsSuccessStatusCode)
             {
@@ -65,16 +79,16 @@ namespace ProjectOfficeApi.Services
             //    string responseBody = await response.Content.ReadAsStringAsync();
             //}
             var jsonContent = System.Text.Json.JsonSerializer.Serialize(model);
-            var request = new HttpRequestMessage(HttpMethod.Put, $"{URL_adress}/api/TaskObserveEmployees/{model.Id}");
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{_url_adress}/api/TaskObserveEmployees/{model.Id}");
             request.Content = new StringContent(jsonContent, null, "application/json");
-            var response = await client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             var jsonText = await response.Content.ReadAsStringAsync();
         }
 
         public static async System.Threading.Tasks.Task DeleteTaskObserveEmployee(int id)
         {
             //Entities.Task task = new();
-            HttpResponseMessage reponse = await client.DeleteAsync($"{URL_adress}/api/TaskObserveEmployees/{id}");
+            HttpResponseMessage reponse = await _client.DeleteAsync($"{_url_adress}/api/TaskObserveEmployees/{id}");
             //if (response.IsSuccessStatusCode)
             //{
             //    string responseBody = await response.Content.ReadAsStringAsync();
@@ -85,7 +99,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.AttachmentsInTask>> GetAttachmentInTask()
         {
             List<ProjectOffice.DataBase.Entities.AttachmentsInTask> AttachmentsInTask = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/AttachmentsInTask");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/AttachmentsInTask");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -97,7 +111,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.AttachmentsInTask> GetAttachmentsInTask(int id)
         {
             ProjectOffice.DataBase.Entities.AttachmentsInTask AttachmentsInTask = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/AttachmentsInTask/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/AttachmentsInTask/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -109,7 +123,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<int> PostAttachmentInTask(ProjectOffice.DataBase.Entities.AttachmentsInTask model)
         {
             int id = 0;
-            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/AttachmentInTask",
+            HttpResponseMessage response = await _client.PostAsync($"{_url_adress}/api/AttachmentInTask",
                 new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
             if (response.IsSuccessStatusCode)
             {
@@ -127,16 +141,16 @@ namespace ProjectOfficeApi.Services
             //    string responseBody = await response.Content.ReadAsStringAsync();
             //}
             var jsonContent = System.Text.Json.JsonSerializer.Serialize(model);
-            var request = new HttpRequestMessage(HttpMethod.Put, $"{URL_adress}/api/AttachmentsInTask/{model.Id}");
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{_url_adress}/api/AttachmentsInTask/{model.Id}");
             request.Content = new StringContent(jsonContent, null, "application/json");
-            var response = await client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             var jsonText = await response.Content.ReadAsStringAsync();
         }
 
         public static async System.Threading.Tasks.Task DeleteAttachmentInTask(int id)
         {
             //Entities.Task task = new();
-            HttpResponseMessage reponse = await client.DeleteAsync($"{URL_adress}/api/AttachmentsInTask/{id}");
+            HttpResponseMessage reponse = await _client.DeleteAsync($"{_url_adress}/api/AttachmentsInTask/{id}");
             //if (response.IsSuccessStatusCode)
             //{
             //    string responseBody = await response.Content.ReadAsStringAsync();
@@ -146,7 +160,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.Project>> GetProjects()
         {
             List<ProjectOffice.DataBase.Entities.Project> projects = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Project");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Project");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -158,7 +172,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.Project> GetProject(Guid id)
         {
             ProjectOffice.DataBase.Entities.Project project = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Project/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Project/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -170,7 +184,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.Employee>> GetEmployees()
         {
             List<ProjectOffice.DataBase.Entities.Employee> employees = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Employee");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Employee");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -182,7 +196,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.Task>> GetTasks()
         {
             List<ProjectOffice.DataBase.Entities.Task> tasks = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Task");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -194,7 +208,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.Task>> GetTasks(Guid projectId)
         {
             List<ProjectOffice.DataBase.Entities.Task> tasks = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task/Project/{projectId}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Task/Project/{projectId}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -206,7 +220,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<int> PostAttachment(AttachmentModel model)
         {
             int id = 0;
-            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/Attachment",
+            HttpResponseMessage response = await _client.PostAsync($"{_url_adress}/api/Attachment",
                 new StringContent(System.Text.Json.JsonSerializer.Serialize(model), null, "application/json"));
             if (response.IsSuccessStatusCode)
             {
@@ -219,7 +233,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.Attachment> GetAttachment(int id)
         {
             ProjectOffice.DataBase.Entities.Attachment attachment = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Attachment/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Attachment/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -231,7 +245,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.Task> GetTask(Guid id)
         {
             ProjectOffice.DataBase.Entities.Task task = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/Task/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/Task/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -242,7 +256,7 @@ namespace ProjectOfficeApi.Services
 
         public static async System.Threading.Tasks.Task PostTask(TaskModel task)
         {
-            HttpResponseMessage response = await client.PostAsync($"{URL_adress}/api/Task", new StringContent(System.Text.Json.JsonSerializer.Serialize(task), null, "application/json"));
+            HttpResponseMessage response = await _client.PostAsync($"{_url_adress}/api/Task", new StringContent(System.Text.Json.JsonSerializer.Serialize(task), null, "application/json"));
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -258,16 +272,16 @@ namespace ProjectOfficeApi.Services
             //    string responseBody = await response.Content.ReadAsStringAsync();
             //}
             var jsonContent = System.Text.Json.JsonSerializer.Serialize(task);
-            var request = new HttpRequestMessage(HttpMethod.Put, $"{URL_adress}/api/Task/{task.Id}");
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{_url_adress}/api/Task/{task.Id}");
             request.Content = new StringContent(jsonContent, null, "application/json");
-            var response = await client.SendAsync(request);
+            var response = await _client.SendAsync(request);
             var jsonText = await response.Content.ReadAsStringAsync();
         }
 
         public static async System.Threading.Tasks.Task DeleteTask(Guid id)
         {
             //Entities.Task task = new();
-            HttpResponseMessage reponse = await client.DeleteAsync($"{URL_adress}/api/Task/{id}");
+            HttpResponseMessage reponse = await _client.DeleteAsync($"{_url_adress}/api/Task/{id}");
             //if (response.IsSuccessStatusCode)
             //{
             //    string responseBody = await response.Content.ReadAsStringAsync();
@@ -278,7 +292,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<List<ProjectOffice.DataBase.Entities.TaskStatus>> GetTaskStatuses()
         {
             List<ProjectOffice.DataBase.Entities.TaskStatus> taskstatuses = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/TaskStatus");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/TaskStatus");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -290,7 +304,7 @@ namespace ProjectOfficeApi.Services
         public static async Task<ProjectOffice.DataBase.Entities.TaskStatus> GetTaskStatus(int id)
         {
             ProjectOffice.DataBase.Entities.TaskStatus taskstatus = new();
-            HttpResponseMessage response = await client.GetAsync($"{URL_adress}/api/TaskStatus/{id}");
+            HttpResponseMessage response = await _client.GetAsync($"{_url_adress}/api/TaskStatus/{id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();

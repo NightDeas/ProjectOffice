@@ -11,7 +11,7 @@ using ProjectOffice.DataBase.Entities;
 
 namespace ProjectOffice.DataBase.Migrations
 {
-    [DbContext(typeof(DbContextProjectOffice))]
+    [DbContext(typeof(Context))]
     [Migration("20240511190334_init")]
     partial class init
     {

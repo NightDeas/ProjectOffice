@@ -13,9 +13,9 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class AttachmentsInTasksController : ControllerBase
     {
-        private readonly DbContextProjectOffice _context;
+        private readonly Context _context;
 
-        public AttachmentsInTasksController(DbContextProjectOffice context)
+        public AttachmentsInTasksController(Context context)
         {
             _context = context;
         }

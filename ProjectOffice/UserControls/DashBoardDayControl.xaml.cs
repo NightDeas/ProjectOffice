@@ -47,6 +47,7 @@ namespace ProjectOffice.UserControls
         public DashBoardDayControl()
         {
             InitializeComponent();
+            this.Tag = Date;
             DataContext = this;
         }
 

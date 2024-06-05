@@ -11,10 +11,10 @@ namespace ProjectOfficeApi.Controllers
     public class AttachmentController : ControllerBase
     {
         //Entities.DbContextProjectOffice _context;
-        ProjectOffice.DataBase.Entities.DbContextProjectOffice _context;
+        ProjectOffice.DataBase.Entities.Context _context;
         public AttachmentController()
         {
-            _context = new ProjectOffice.DataBase.Entities.DbContextProjectOffice();
+            _context = new ProjectOffice.DataBase.Entities.Context();
         }
 
 

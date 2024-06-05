@@ -32,4 +32,6 @@ public partial class Employee
     public virtual ICollection<TaskObserveEmployee> TaskObserveEmployees { get; set; } = new List<TaskObserveEmployee>();
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+
+    public virtual User? User { get; set; }
 }

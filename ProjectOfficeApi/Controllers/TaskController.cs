@@ -11,7 +11,7 @@ namespace ProjectOfficeApi.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly ProjectOffice.DataBase.Entities.DbContextProjectOffice _context;
+        private readonly ProjectOffice.DataBase.Entities.Context _context;
 
         public TaskController()
         {
@@ -196,7 +196,7 @@ namespace ProjectOfficeApi.Controllers
         public DateTime? FinishActualTime { get; set; }
 
         public Guid? PreviousTaskId { get; set; }
-        public bool IsDelete { get; set; }
+        public bool? IsDelete { get; set; }
 
 
         public TaskResponse(ProjectOffice.DataBase.Entities.Task task)

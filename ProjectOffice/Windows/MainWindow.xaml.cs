@@ -38,7 +38,7 @@ namespace ProjectOffice
             InitializeComponent();
             VersionApp = ProjectOffice.Properties.Settings.Default.versionApp;
             DataContext = this;
-            App.mainWindow = this;
+            App.MainWindow = this;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -49,7 +49,7 @@ namespace ProjectOffice
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            App.mainWindow.FrameMain.Navigate(new Pages.DashboardPage(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect)));
+            App.MainWindow.FrameMain.Navigate(new Pages.DashboardPage(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect)));
         }
     }
 }

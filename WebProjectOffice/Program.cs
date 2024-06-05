@@ -16,8 +16,8 @@ namespace WebProjectOffice
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddRadzenComponents();
+            builder.Services.AddTransient<Services.PageService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,7 +31,6 @@ namespace WebProjectOffice
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.MapBlazorHub();

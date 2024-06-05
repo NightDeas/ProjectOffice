@@ -33,7 +33,7 @@ public partial class Task
 
     public Guid? PreviousTaskId { get; set; }
 
-    public bool IsDelete { get; set; }
+    public bool? IsDelete { get; set; }
 
     public virtual ICollection<AttachmentsInTask> AttachmentsInTasks { get; set; } = new List<AttachmentsInTask>();
 

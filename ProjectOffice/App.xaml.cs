@@ -11,10 +11,20 @@ namespace ProjectOffice
     /// </summary>
     public partial class App : Application
     {
-        //public static Entities.DbContextProjectOffice context = new Entities.DbContextProjectOffice();
-        public static MainWindow mainWindow;
-        //public static List<Entities.TaskStatus> TaskStatus = ApiService.GetTaskStatuses();
-        //public static Pages.TaskPage TaskPage = new();
+        public static MainWindow MainWindow;
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            MainWindow = new MainWindow();
+            MainWindow.Show();
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            MessageBox.Show($"Ошибка: {e.Exception.Message}", "Критическая ошибка");
+        }
     }
 
 }
