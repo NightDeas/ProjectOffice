@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject DialogService DialogService;
+@inject NavigationManager NavigationManager;
+<RadzenStack Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 400px; overflow: hidden;">
+    <RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-info rz-p-12" style="text-align: center;">
+        <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" Class="rz-color-white rz-mb-0">Авторизация</RadzenText>
+    </RadzenCard>
+    <RadzenCard Class="rz-shadow-0 rz-p-12">
+        <RadzenTemplateForm Data=@("SimpleLogin")>
+            <RadzenLogin AllowRegister="false" Username="@_login" Password="@_password" Login=@(args => LoginBtn(args)) AllowResetPassword="false"/>
+        </RadzenTemplateForm>
+    </RadzenCard>
+</RadzenStack>
+
+@code {
+    private string _login;
+    private string _password;
+
+    private void LoginBtn(LoginArgs args)
+    {
+        var user = ProjectOffice.ApiLibrary.Api.GetUser(_login, _password);
+        if (user == null)
+        {
+            DialogService.Alert("Неправильный логин или пароль", "Ошибка");
+            return;
+        }
+        NavigationManager.NavigateTo("/Menu");
+        MainLayout.ShowMenu = true;
+    }
+}

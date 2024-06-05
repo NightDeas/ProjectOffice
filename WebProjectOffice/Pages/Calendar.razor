@@ -2,141 +2,151 @@
 @using WebProjectOffice.Models
 @using WebProjectOffice.Services
 @inject DialogService DialogService
+@inject NavigationManager NavigationManager
 
 <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
-				 TextProperty="Text" SelectedIndex="2"
-				 SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender
-				 AppointmentMove=@OnAppointmentMove>
-	<RadzenDayView />
-	<RadzenWeekView @ref=@test TimeFormat="HH:mm" StartTime="@(new TimeSpan(0,0,0))" EndTime="@(new TimeSpan(24,0,0))" />
-	<RadzenMonthView />
+                 TextProperty="Text" SelectedIndex="2"
+                 SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender
+                 AppointmentMove=@OnAppointmentMove>
+    <RadzenDayView />
+    <RadzenWeekView @ref=@test TimeFormat="HH:mm" StartTime="@(new TimeSpan(0,0,0))" EndTime="@(new TimeSpan(24,0,0))" />
+    <RadzenMonthView />
 </RadzenScheduler>
 
 @code {
-	RadzenScheduler<Appointment> scheduler;
-	RadzenWeekView test;
-	Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
+    RadzenScheduler<Appointment> scheduler;
+    RadzenWeekView test;
+    Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
 
-	IList<Appointment> appointments = new List<Appointment>();
+    IList<Appointment> appointments = new List<Appointment>();
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		
-		if (firstRender)
-		{
-			await LoadData();
-		}
-		await scheduler.Reload();
-		StateHasChanged();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        PageService.HistoryLinkPage.Add(NavigationManager.Uri);
+    }
 
-	private async Task LoadData()
-	{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            PageService pageService = new(NavigationManager, DialogService);
+            if (await pageService.CheckAccess(Roles.Admin))
+            {
+                await LoadData();
+               
+            }
+        }
+    }
 
-		var tasks = await ProjectOfficeApi.Services.ApiService.GetTasks();
-		try
-		{
-			foreach (var task in tasks)
-			{
-				appointments.Add(new Appointment()
-					{
-						Id = task.Id,
-						Start = (DateTime)task.StartActualTime == null ? (DateTime)task.CreatedTime : (DateTime)task.StartActualTime,
-						End = (DateTime)task.Deadline,
-						Text = task.FullTitle,
-						ShortTitle = task.ShortTitle,
-						Description = task.Description
-					});
-			}
-		}
-		catch (Exception e)
-		{
+    private async Task LoadData()
+    {
 
-			throw;
-		}
-	}
+        var tasks = await ProjectOfficeApi.Services.ApiService.GetTasks();
+        try
+        {
+            foreach (var task in tasks)
+            {
+                appointments.Add(new Appointment()
+                    {
+                        Id = task.Id,
+                        Start = (DateTime)task.StartActualTime == null ? (DateTime)task.CreatedTime : (DateTime)task.StartActualTime,
+                        End = (DateTime)task.Deadline,
+                        Text = task.FullTitle,
+                        ShortTitle = task.ShortTitle,
+                        Description = task.Description
+                    });
+            }
+            await scheduler.Reload();
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
 
-	void OnSlotRender(SchedulerSlotRenderEventArgs args)
-	{
-		// Highlight today in month view
-		if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
-		{
-			args.Attributes["style"] = "background: rgba(255,220,40,.2);";
-		}
+            throw;
+        }
+    }
 
-		// Highlight working hours (9-18)
-		if (args.Start.Date == DateTime.Today)
-			args.Attributes["style"] = "background: #EDF0FF;";
+    void OnSlotRender(SchedulerSlotRenderEventArgs args)
+    {
+        // Highlight today in month view
+        if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
+        {
+            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
+        }
 
-		if (args.Start.Date.DayOfWeek == DayOfWeek.Sunday || args.Start.Date.DayOfWeek == DayOfWeek.Saturday)
-			args.Attributes["style"] = "background: #FFE2E2;";
+        // Highlight working hours (9-18)
+        if (args.Start.Date == DateTime.Today)
+            args.Attributes["style"] = "background: #EDF0FF;";
 
-	}
+        if (args.Start.Date.DayOfWeek == DayOfWeek.Sunday || args.Start.Date.DayOfWeek == DayOfWeek.Saturday)
+            args.Attributes["style"] = "background: #FFE2E2;";
 
-	async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
-	{
+    }
 
-		if (args.View.Text != "Year")
-		{
-			Appointment data = new();
-			// = await DialogService.OpenAsync<AddAppointmentPage>("Add Appointment",
-			// new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+    async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
+    {
 
-			if (data != null)
-			{
-				appointments.Add(data);
-				// Either call the Reload method or reassign the Data property of the Scheduler
-				await scheduler.Reload();
-			}
-		}
-	}
+        if (args.View.Text != "Year")
+        {
+            Appointment data = new();
+            // = await DialogService.OpenAsync<AddAppointmentPage>("Add Appointment",
+            // new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
 
-	async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Appointment> args)
-	{
+            if (data != null)
+            {
+                appointments.Add(data);
+                // Either call the Reload method or reassign the Data property of the Scheduler
+                await scheduler.Reload();
+            }
+        }
+    }
 
-		var copy = new Appointment
-			{
-				Id = args.Data.Id,
-				Start = args.Data.Start,
-				End = args.Data.End,
-				Text = args.Data.Text,
-				ShortTitle = args.Data.ShortTitle,
-				Description = args.Data.Description
-			};
+    async Task OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Appointment> args)
+    {
 
-		var data = await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", new Dictionary<string, object> { { "Appointment", copy } });
+        var copy = new Appointment
+            {
+                Id = args.Data.Id,
+                Start = args.Data.Start,
+                End = args.Data.End,
+                Text = args.Data.Text,
+                ShortTitle = args.Data.ShortTitle,
+                Description = args.Data.Description
+            };
 
-		if (data != null)
-		{
-			// Update the appointment
-			args.Data.Start = data.Start;
-			args.Data.End = data.End;
-		}
+        var data = await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", new Dictionary<string, object> { { "Appointment", copy } });
 
-		await scheduler.Reload();
-	}
+        if (data != null)
+        {
+            // Update the appointment
+            args.Data.Start = data.Start;
+            args.Data.End = data.End;
+        }
 
-	void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
-	{
-		// Never call StateHasChanged in AppointmentRender - would lead to infinite loop
+        await scheduler.Reload();
+    }
 
-		if (args.Data.Text == "Birthday")
-		{
-			args.Attributes["style"] = "background: red";
-		}
-	}
+    void OnAppointmentRender(SchedulerAppointmentRenderEventArgs<Appointment> args)
+    {
+        // Never call StateHasChanged in AppointmentRender - would lead to infinite loop
 
-	async Task OnAppointmentMove(SchedulerAppointmentMoveEventArgs args)
-	{
-		var draggedAppointment = appointments.FirstOrDefault(x => x == args.Appointment.Data);
+        if (args.Data.Text == "Birthday")
+        {
+            args.Attributes["style"] = "background: red";
+        }
+    }
 
-		if (draggedAppointment != null)
-		{
-			draggedAppointment.Start = draggedAppointment.Start + args.TimeSpan;
+    async Task OnAppointmentMove(SchedulerAppointmentMoveEventArgs args)
+    {
+        var draggedAppointment = appointments.FirstOrDefault(x => x == args.Appointment.Data);
 
-			draggedAppointment.End = draggedAppointment.End + args.TimeSpan;
+        if (draggedAppointment != null)
+        {
+            draggedAppointment.Start = draggedAppointment.Start + args.TimeSpan;
 
-			await scheduler.Reload();
-		}
-	}
+            draggedAppointment.End = draggedAppointment.End + args.TimeSpan;
+
+            await scheduler.Reload();
+        }
+    }
 }

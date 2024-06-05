@@ -17,8 +17,7 @@ namespace WebProjectOffice
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddRadzenComponents();
-            builder.Services.AddTransient<Services.PageService>();
-            var app = builder.Build();
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -1,20 +1,30 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+<PageTitle>Проектный офис</PageTitle>
 
-<PageTitle>WebProjectOffice</PageTitle>
+<RadzenRow Style="min-width:300px">
+    <RadzenColumn Size="2" Style="max-width:200px" Visible="@ShowMenu">
+        <RadzenText Style="text-align: center" Text="Меню"></RadzenText>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Style="text-align: center" Text="Календарь" Click="Calendar_Click"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Style="text-align: center" Text="Графики" Click="DashBoard_Click"></RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </RadzenColumn>
+    <RadzenColumn Size="10" Style="margin-top: 50px">
+        @Body
+    </RadzenColumn>
+</RadzenRow>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+@code {
+    public static bool ShowMenu = false;
+    private void Calendar_Click(MenuItemEventArgs e)
+    {
+        NavigationManager.NavigateTo("/Calendar");
+    }
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-<RadzenComponents></RadzenComponents>
+    private void DashBoard_Click(MenuItemEventArgs e)
+    {
+        NavigationManager.NavigateTo("/Dashboard");
+    }
+}

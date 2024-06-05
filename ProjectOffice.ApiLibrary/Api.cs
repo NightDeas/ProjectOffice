@@ -1,23 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+
 using ProjectOffice.DataBase.Entities;
 
-namespace WebProjectOffice.Services
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectOffice.ApiLibrary
 {
-    public class ApiService
+    public class Api
     {
-        public const string _url_adress = "https://localhost:7197";
-        private static HttpClient _client = new HttpClient();
-
-
-        public static async Task<User> GetUser(string Login, string Password)
+        static HttpClient _client = new();
+        const string _url_adress = "https://localhost:7178";
+        public static async Task<Models.UserModel> GetUser(string Login, string Password)
         {
             HttpResponseMessage response = await _client.GetAsync($@"{_url_adress}/api/Users/auth?login={Login}&password={Password}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
                 User user = JsonConvert.DeserializeObject<User>(responseBody);
-                return user;
+                return Models.UserModel.ToDbModel(user);
             }
             return null;
         }

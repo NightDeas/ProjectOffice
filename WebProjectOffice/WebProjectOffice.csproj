@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBase\ProjectOffice.DataBase.csproj" />
+    <ProjectReference Include="..\ProjectOffice.ApiLibrary\ProjectOffice.ApiLibrary.csproj" />
     <ProjectReference Include="..\ProjectOfficeApi\ProjectOfficeApi.csproj" />
   </ItemGroup>
 

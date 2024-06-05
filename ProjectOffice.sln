@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectOffice.DataBase", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebProjectOffice", "WebProjectOffice\WebProjectOffice.csproj", "{691D62F6-D2E9-402E-8BBE-40D56413CC42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectOffice.ApiLibrary", "ProjectOffice.ApiLibrary\ProjectOffice.ApiLibrary.csproj", "{30C440EB-49B0-4665-8AF5-5A8F7BFB1ED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{691D62F6-D2E9-402E-8BBE-40D56413CC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{691D62F6-D2E9-402E-8BBE-40D56413CC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{691D62F6-D2E9-402E-8BBE-40D56413CC42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C440EB-49B0-4665-8AF5-5A8F7BFB1ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C440EB-49B0-4665-8AF5-5A8F7BFB1ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C440EB-49B0-4665-8AF5-5A8F7BFB1ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C440EB-49B0-4665-8AF5-5A8F7BFB1ED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
