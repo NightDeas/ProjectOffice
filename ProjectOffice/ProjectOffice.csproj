@@ -9,8 +9,6 @@
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
     <StartupObject>ProjectOffice.App</StartupObject>
-    <PackageIcon>1667581075_12-sportishka-com-p-mashina-rodster-oboi-15.jpg</PackageIcon>
-    <ApplicationIcon>1667581075_12-sportishka-com-p-mashina-rodster-oboi-15.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
