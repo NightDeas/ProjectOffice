@@ -9,7 +9,7 @@ namespace WebProjectOffice.Services
         private static ProjectOffice.ApiLibrary.Models.UserModel _user;
         public static async Task<bool> Login(string login, string password)
         {
-            var user = await ProjectOffice.ApiLibrary.Api.GetUser(login, password);
+            var user = await ProjectOffice.ApiLibrary.Api.GetUserAsync(login, password);
             if (user == null)
                 return false;
             _user = user;
@@ -18,21 +18,24 @@ namespace WebProjectOffice.Services
 
         public static ProjectOffice.ApiLibrary.Models.UserModel GetUser()
         {
-            if (_user == null)
-                _user = new();
             return _user;
         }
+
 
         /// <summary>
         /// Проверка пользователя на разрешение на выполнение задач
         /// </summary>
         /// <param name="Role">Требуемая роль</param>
-        private static bool CheckAccess(Roles Role)
+        public static bool CheckAccess(Roles Role)
         {
             if (_user.RoleId == ((int)Role))
                 return true;
             else
                 return false;
+        }
+        public static void ResetUser()
+        {
+            _user = null;
         }
     }
 

@@ -1,30 +1,43 @@
 ﻿@page "/"
 @inject DialogService DialogService;
 @inject NavigationManager NavigationManager;
-<RadzenStack Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 400px; overflow: hidden;">
-    <RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-info rz-p-12" style="text-align: center;">
-        <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" Class="rz-color-white rz-mb-0">Авторизация</RadzenText>
-    </RadzenCard>
-    <RadzenCard Class="rz-shadow-0 rz-p-12">
-        <RadzenTemplateForm Data=@("SimpleLogin")>
-            <RadzenLogin AllowRegister="false" Username="@_login" Password="@_password" Login=@(args => LoginBtn(args)) AllowResetPassword="false"/>
-        </RadzenTemplateForm>
-    </RadzenCard>
-</RadzenStack>
+<RadzenRow>
+		<RadzenLayout class="d-flex justify-content-center align-items-center align-middle" style="width: 100%; max-width: 400px;">
+			<RadzenStack>
+				<RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-info rz-p-12">
+					<RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" Class="rz-color-white rz-mb-0">Авторизация</RadzenText>
+				</RadzenCard>
+				<RadzenCard Class="rz-shadow-0 rz-p-12">
+					<RadzenTemplateForm Data=@("SimpleLogin")>
+						<RadzenLogin AllowRegister="false" UserText="Логин" PasswordText="Пароль" Login=@(args => LoginBtn(args)) AllowResetPassword="false" />
+					</RadzenTemplateForm>
+					<RadzenText Text="Неверный логин или пароль" Style="color: red" Visible="@_error"></RadzenText>
+				</RadzenCard>
+			</RadzenStack>
+		</RadzenLayout>
+</RadzenRow>
 
 @code {
-    private string _login;
-    private string _password;
+	private bool _error { get; set; } = false;
 
-    private void LoginBtn(LoginArgs args)
-    {
-        var user = ProjectOffice.ApiLibrary.Api.GetUser(_login, _password);
-        if (user == null)
-        {
-            DialogService.Alert("Неправильный логин или пароль", "Ошибка");
-            return;
-        }
-        NavigationManager.NavigateTo("/Menu");
-        MainLayout.ShowMenu = true;
-    }
+	protected override void OnInitialized()
+	{
+		MainLayout.ShowMenu = false;
+		Services.UserService.ResetUser();
+	}
+
+	private async void LoginBtn(LoginArgs args)
+	{
+		bool successfull = await Services.UserService.Login(args.Username, args.Password);
+		if (!successfull)
+		{
+			_error = true;
+			// await DialogService.Alert("Неправильный логин или пароль", "Ошибка");
+			StateHasChanged();
+			return;
+		}
+		_error = false;
+		NavigationManager.NavigateTo("/Menu");
+		MainLayout.ShowMenu = true;
+	}
 }

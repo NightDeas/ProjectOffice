@@ -13,10 +13,10 @@ namespace ProjectOffice.ApiLibrary
     public class Api
     {
         static HttpClient _client = new();
-        const string _url_adress = "https://localhost:7178";
-        public static async Task<Models.UserModel> GetUser(string Login, string Password)
+        const string _url_adress = "https://localhost:7197";
+        public static async Task<Models.UserModel> GetUserAsync(string Login, string Password)
         {
-            HttpResponseMessage response = await _client.GetAsync($@"{_url_adress}/api/Users/auth?login={Login}&password={Password}");
+            HttpResponseMessage response = await _client.GetAsync($@"{_url_adress}/api/Auth?login={Login}&password={Password}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();

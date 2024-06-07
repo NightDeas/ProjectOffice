@@ -10,8 +10,9 @@ namespace WebProjectOffice.Services
 	public class PageService
 	{
 		public static List<string> HistoryLinkPage = new List<string>();
-		private NavigationManager NavigationManager;
-		private DialogService DialogService;
+		public NavigationManager NavigationManager;
+		[Inject]
+		protected DialogService DialogService { get;set; }
 
         public PageService(NavigationManager navigationManager, DialogService dialogService)
         {
@@ -35,7 +36,7 @@ namespace WebProjectOffice.Services
 		{
 			if (!(UserService.GetUser().RoleId == (int)role))
 			{
-				await DialogService.Alert("Недостаточно прав входа на данную страницу!", "Ошибка доступа");
+                await DialogService.Alert("Недостаточно прав входа на данную страницу!", "Ошибка доступа", new AlertOptions() { OkButtonText = "Ok"});
 				NavigationManager.NavigateTo("/");
 				return false;
             }
