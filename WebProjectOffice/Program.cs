@@ -17,8 +17,6 @@ namespace WebProjectOffice
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddRadzenComponents();
-            builder.Services.AddScoped<DialogService>();
-            builder.Services.AddTransient<DialogService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
