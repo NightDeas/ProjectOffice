@@ -32,10 +32,6 @@ namespace ProjectOffice.Services
         {
             ProjectId = projectId;
             TaskPage.TaskListStackPanel.Children.Clear();
-            //var tasks = App.context.Tasks
-            //    .Where(x => x.ProjectId == ProjectId && x.IsDelete == false)
-            //    .Include(x => x.ExecutiveEmployeed)
-            //.ToList();
             var tasks = await ApiService.GetTasks(projectId);
             foreach (var task in tasks)
             {
@@ -47,7 +43,6 @@ namespace ProjectOffice.Services
                     ShortName = task.ShortTitle,
                     StatusId = task.StatusId,
                 };
-                //taskControls.Add(new UserControls.TaskControl(info));
                 TaskPage.TaskListStackPanel.Children.Add(new UserControls.TaskControl(info)
                 {
                     Tag = task.Id
