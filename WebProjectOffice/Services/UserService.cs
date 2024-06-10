@@ -6,7 +6,7 @@ namespace WebProjectOffice.Services
 {
     public static class UserService
     {
-        private static ProjectOffice.ApiLibrary.Models.UserModel _user;
+        private static ProjectOffice.ApiLibrary.Models.UserModel _user = new();
         public static async Task<bool> Login(string login, string password)
         {
             var user = await ProjectOffice.ApiLibrary.Api.GetUserAsync(login, password);
@@ -15,6 +15,7 @@ namespace WebProjectOffice.Services
             _user = user;
             return true;
         }
+
 
         public static ProjectOffice.ApiLibrary.Models.UserModel GetUser()
         {
@@ -35,7 +36,7 @@ namespace WebProjectOffice.Services
         }
         public static void ResetUser()
         {
-            _user = null;
+            _user = new();
         }
     }
 

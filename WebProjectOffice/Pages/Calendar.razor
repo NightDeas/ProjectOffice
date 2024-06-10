@@ -3,15 +3,16 @@
 @using WebProjectOffice.Services
 @inject DialogService DialogService
 @inject NavigationManager NavigationManager
-
-<RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px;" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
-                 TextProperty="Text" SelectedIndex="2"
-                 SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender
-                 AppointmentMove=@OnAppointmentMove>
-    <RadzenDayView />
-    <RadzenWeekView @ref=@test TimeFormat="HH:mm" StartTime="@(new TimeSpan(0,0,0))" EndTime="@(new TimeSpan(24,0,0))" />
-    <RadzenMonthView />
-</RadzenScheduler>
+<RadzenRow>
+    <RadzenScheduler @ref=@scheduler SlotRender=@OnSlotRender style="height: 768px; width: 85vw" TItem="Appointment" Data=@appointments StartProperty="Start" EndProperty="End"
+                     TextProperty="Text" SelectedIndex="2"
+                     SlotSelect=@OnSlotSelect AppointmentSelect=@OnAppointmentSelect AppointmentRender=@OnAppointmentRender
+                     AppointmentMove=@OnAppointmentMove TodayText="Сегодня">
+        <RadzenDayView Text="День"/>
+        <RadzenWeekView Text="Неделя" @ref=@test TimeFormat="HH:mm" StartTime="@(new TimeSpan(0,0,0))" EndTime="@(new TimeSpan(24,0,0))" />
+        <RadzenMonthView MoreText="еще {0}" Text="Месяц"/>
+    </RadzenScheduler>
+</RadzenRow>
 
 @code {
     RadzenScheduler<Appointment> scheduler;
@@ -30,10 +31,9 @@
         if (firstRender)
         {
             PageService pageService = new(NavigationManager, DialogService);
-            if (await pageService.CheckAccess(Roles.Admin))
+            if (await pageService.CheckAccess(Roles.Employee))
             {
                 await LoadData();
-               
             }
         }
     }
@@ -114,7 +114,7 @@
                 Description = args.Data.Description
             };
 
-        var data = await DialogService.OpenAsync<EditAppointmentPage>("Edit Appointment", new Dictionary<string, object> { { "Appointment", copy } });
+        var data = await DialogService.OpenAsync<EditAppointmentPage>("Редактирование", new Dictionary<string, object> { { "Appointment", copy } });
 
         if (data != null)
         {
