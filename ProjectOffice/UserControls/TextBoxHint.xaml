@@ -17,7 +17,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <TextBox VerticalContentAlignment="Center" Text="" x:Name="textTb" Margin="10,5" Height="30">
+        <TextBox VerticalContentAlignment="Center" Text="" TextChanged="TextTb_TextChanged" x:Name="textTb" Margin="10,5" Height="30">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"></Setter>

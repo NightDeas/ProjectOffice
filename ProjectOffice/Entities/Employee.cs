@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectOffice.DataBase.Entities;
+namespace ProjectOffice.Entities;
 
 public partial class Employee
 {

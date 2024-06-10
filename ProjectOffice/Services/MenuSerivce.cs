@@ -31,11 +31,13 @@ namespace ProjectOffice.Services
             var listProject = await ApiService.GetProjects();
             foreach (var project in listProject)
             {
-                mainWindow.MenuStackPanel.Children.Add(new ProjectInPanelControl(project.FullTitle)
+                ProjectInPanelControl projectControl = new ProjectInPanelControl(project.FullTitle)
                 {
                     Style = (Style)Application.Current.MainWindow.Resources["childrenInPanel"],
                     Tag = project.Id,
-                });
+                };
+                projectControl.ContextMenu = App.MainWindow.Resources["ProjectContextMenu"] as ContextMenu;
+                mainWindow.MenuStackPanel.Children.Add(projectControl);
             }
         }
 
@@ -46,7 +48,7 @@ namespace ProjectOffice.Services
             else
             {
                 Guid id = Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect);
-                //bool any = App.context.Projects.Any(x => x.Id == id);
+                //bool any = App.context.Projects.Any(x => x.Id == Id);
                 var projectFind = ApiService.GetProject(id);
 
                 if (projectFind != null)

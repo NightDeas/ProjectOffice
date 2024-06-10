@@ -21,9 +21,15 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class EmployeeAddControl : UserControl
     {
+        Guid Id { get; set; }
         public EmployeeAddControl()
         {
             InitializeComponent();
+        }
+
+        public EmployeeAddControl(Guid EmployeeId) : this()
+        {
+            Id = EmployeeId;
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

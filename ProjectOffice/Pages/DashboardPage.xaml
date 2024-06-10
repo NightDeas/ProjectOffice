@@ -57,7 +57,7 @@
                     <TextBlock Grid.Row="0" Style="{StaticResource Title}">График задач по статусам</TextBlock>
                 </Grid>
             </Border>
-            <Border Style="{StaticResource GridBorder}">
+            <Border Visibility="Collapsed" Style="{StaticResource GridBorder}">
                 <Grid>
                     <StackPanel>
                         <TextBlock Style="{StaticResource Title}">Экспорт данных</TextBlock>

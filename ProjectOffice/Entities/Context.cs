@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ProjectOffice.DataBase.Entities;
+namespace ProjectOffice.Entities;
 
 public partial class Context : DbContext
 {

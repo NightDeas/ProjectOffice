@@ -1,4 +1,5 @@
-﻿using ProjectOffice.Services;
+﻿using ProjectOffice.DataBase.Entities;
+using ProjectOffice.Services;
 using System.Configuration;
 using System.Data;
 using System.Windows;
@@ -12,12 +13,13 @@ namespace ProjectOffice
     public partial class App : Application
     {
         public static MainWindow MainWindow;
-
+        public static User User;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             MainWindow = new MainWindow();
-            MainWindow.Show();
+            MainWindow.FrameMain.Navigate(new Pages.AuthPage());
+            MainWindow.ShowDialog();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

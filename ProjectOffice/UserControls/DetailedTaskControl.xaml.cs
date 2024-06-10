@@ -1,4 +1,6 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Identity.Client;
 using ProjectOffice.DataBase.Entities;
 using ProjectOffice.Models;
 using ProjectOffice.Pages;
@@ -30,8 +32,6 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class DetailedTaskControl : UserControl
     {
-
-
         public DetailedTaskInfo info { get; set; } = new();
         private bool _isCreate = true;
         //public Guid Id { get; set; }
@@ -121,24 +121,49 @@ namespace ProjectOffice.UserControls
                 return;
             var task = await ApiService.GetTask(info.Id);
             if (task == null)
-                throw new Exception("Не удалось найти задачу по id");
+                throw new Exception("Не удалось найти задачу по Id");
             await ApiService.DeleteTask(info.Id);
             TaskService.Reset(info.ProjectId);
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            DataStackPanel.Children.Clear();
+            ObserversStackPanel.Children.Clear();
             EmployeesCb.ItemsSource = await ApiService.GetEmployees();
             TaskCb.ItemsSource = await ApiService.GetTasks();
             CreateStatus();
             DataStackPanel.Children.Add(new UserControls.ProgramAddControl());
             ObserversStackPanel.Children.Add(new UserControls.EmployeeAddControl());
+            GetObservers();
             //EmployeesCb.SelectedItem = Employee;
             //var sdfsd = new Entities.DbContextProjectOffice().Employees.Any(x=> x.Id == Employee.Id);
         }
 
         private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (info.DeadLine == DateTime.MinValue ||
+                info.EndActualTime == DateTime.MinValue ||
+                info.StartActualTime == DateTime.MinValue ||
+                string.IsNullOrEmpty(info.Description) ||
+                string.IsNullOrEmpty(info.FullTitle) ||
+                string.IsNullOrEmpty(info.ShortTitle))
+            {
+                MessageBox.Show("Не все поля заполнены");
+                return;
+            }
+            if (info.StartActualTime > info.EndActualTime)
+            {
+                MessageBox.Show("Дата начала не может быть больше даты завершения");
+            }
+            if ((EmployeesCb.SelectedItem as ProjectOffice.DataBase.Entities.Employee) == null)
+            {
+                MessageBox.Show("Не выбран сотрудник");
+                return;
+            }
+
+
+
             MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 return;
@@ -164,7 +189,6 @@ namespace ProjectOffice.UserControls
                 AddObservers();
                 //AddPrograms();
                 MessageBox.Show("Сохранен");
-
             }
             else
             {
@@ -219,6 +243,17 @@ namespace ProjectOffice.UserControls
                         TaskId = info.Id,
                         EmployeesId = employee.Id
                     });
+            }
+        }
+
+        private async void GetObservers()
+        {
+            Context context = new();
+            var observers = await context.TaskObserveEmployees.Where(x => x.TaskId == info.Id).ToListAsync();
+            foreach (var observer in observers)
+            {
+                var control = new UserControls.EmployeeAddControl(observer.EmployeesId);
+                ObserversStackPanel.Children.Add(control);
             }
         }
 

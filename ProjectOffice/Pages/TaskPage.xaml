@@ -29,7 +29,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <ScrollViewer x:Name="TaskListScroolViewer" Grid.ColumnSpan="2" >
-                <Grid >
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="30"/>

@@ -1,4 +1,6 @@
 ﻿using ProjectOffice.Properties;
+using ProjectOffice.Services;
+
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -11,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using Xceed.Wpf.Toolkit.PropertyGrid.Editors;
 
 namespace ProjectOffice
 {
@@ -43,13 +47,34 @@ namespace ProjectOffice
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            await Services.MenuSerivce.LoadProjects(this);
-            await Services.MenuSerivce.AutoSelectProject(this);
+            
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             App.MainWindow.FrameMain.Navigate(new Pages.DashboardPage(Guid.Parse(Properties.Settings.Default.ProjectIdLastSelect)));
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var a =(sender as MenuItem).DataContext;
+        }
+
+        private async void ContextEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var project = (sender as MenuItem).DataContext as UserControls.ProjectInPanelControl;
+            Guid guid = Guid.Parse(project.Tag.ToString());
+            var findProject = await ApiService.GetProject(guid);
+            Windows.ProjectWindow projectWindow = new(findProject);
+            projectWindow.ShowDialog();
+            //Windows.ProjectWindow project = Services.ApiService.GetProject()
+            //project.ShowDialog();
+        }
+
+        private void AddProject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Windows.ProjectWindow project = new();
+            project.ShowDialog();
         }
     }
 }

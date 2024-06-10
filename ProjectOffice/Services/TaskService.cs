@@ -36,7 +36,32 @@ namespace ProjectOffice.Services
             //    .Where(x => x.ProjectId == ProjectId && x.IsDelete == false)
             //    .Include(x => x.ExecutiveEmployeed)
             //.ToList();
-            var tasks = await ApiService.GetTasks(projectId);
+            var tasks = await ApiService.GetTasks(ProjectId);
+            foreach (var task in tasks)
+            {
+                TaskInfo info = new TaskInfo()
+                {
+                    Name = task.FullTitle,
+                    Employee = new EmployeeOfTask(task.ExecutiveEmployeed.FullName, task.ExecutiveEmployeed.ShortName),
+                    Date = task.Deadline ?? DateTime.MinValue,
+                    ShortName = task.ShortTitle,
+                    StatusId = task.StatusId,
+                };
+                //taskControls.Add(new UserControls.TaskControl(info));
+                TaskPage.TaskListStackPanel.Children.Add(new UserControls.TaskControl(info)
+                {
+                    Tag = task.Id
+                });
+            }
+        }
+
+        public static async System.Threading.Tasks.Task LoadTask(List<DataBase.Entities.Task> tasks)
+        {
+            TaskPage.TaskListStackPanel.Children.Clear();
+            //var tasks = App.context.Tasks
+            //    .Where(x => x.ProjectId == ProjectId && x.IsDelete == false)
+            //    .Include(x => x.ExecutiveEmployeed)
+            //.ToList();
             foreach (var task in tasks)
             {
                 TaskInfo info = new TaskInfo()

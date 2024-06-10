@@ -93,6 +93,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBase\ProjectOffice.DataBase.csproj" />
+    <ProjectReference Include="..\ProjectOffice.ApiLibrary\ProjectOffice.ApiLibrary.csproj" />
   </ItemGroup>
 
 </Project>

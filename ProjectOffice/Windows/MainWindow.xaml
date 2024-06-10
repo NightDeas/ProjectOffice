@@ -6,15 +6,18 @@
         xmlns:local="clr-namespace:ProjectOffice"
         xmlns:uc="clr-namespace:ProjectOffice.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Проектный офис" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="childrenInPanel" TargetType="FrameworkElement">
             <Setter Property="Margin" Value="10"></Setter>
         </Style>
         <Style TargetType="Image" x:Key="ImageInStackPanel" BasedOn="{StaticResource childrenInPanel}">
         </Style>
+        <ContextMenu x:Key="ProjectContextMenu">
+            <MenuItem Header="Редактировать" x:Name="ContextEdit" Click="ContextEdit_Click"></MenuItem>
+        </ContextMenu>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition/>
@@ -30,8 +33,9 @@
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Background="DarkBlue">
             <StackPanel>
                 <Image Source="\Resources\app_dasboard_icon.png" Style="{StaticResource ImageInStackPanel}" MouseLeftButtonDown="Image_MouseLeftButtonDown"></Image>
-                <Image Source="\Resources\app_tasks_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
-                <Image Source="\Resources\app_cal_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+                <!--<Image Source="\Resources\app_tasks_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>
+                <Image Source="\Resources\app_cal_icon.png" Style="{StaticResource ImageInStackPanel}"></Image>-->
+                <Image Style="{StaticResource ImageInStackPanel}" Source="/Resources/png1.png" x:Name="AddProject" MouseLeftButtonDown="AddProject_MouseLeftButtonDown"></Image>
             </StackPanel>
             <StackPanel x:Name="MenuStackPanel" ></StackPanel>
         </StackPanel>

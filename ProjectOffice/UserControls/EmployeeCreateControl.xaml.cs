@@ -24,12 +24,15 @@ namespace ProjectOffice.UserControls
     /// </summary>
     public partial class EmployeeCreateControl : UserControl
     {
-
+        
         public EmployeeCreateControl()
         {
             InitializeComponent();
             DataContext = this;
         }
+      
+
+        
 
         private void DeleteEmployeeMI_Click(object sender, RoutedEventArgs e)
         {

@@ -6,15 +6,15 @@ namespace ProjectOffice.DataBase.Entities
 {
     public partial class Employee
     {
-        public string FullName { get => $"{LastName} {FirfstName} {MiddleName}"; }
+        public string FullName { get => $"{LastName} {FirstName} {MiddleName}"; }
         public string ShortName
         {
             get
             {
                 if (MiddleName == null)
-                    return $"{LastName}, {FirfstName[0]}";
+                    return $"{LastName}, {FirstName[0]}";
                 else
-                    return $"{LastName}, {FirfstName[0]}. {MiddleName[0]}";
+                    return $"{LastName}, {FirstName[0]}. {MiddleName[0]}";
             }
         }
     }
