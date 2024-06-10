@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProjectOffice.ApiLibrary
 {
-    public class Api
+    public static class Api
     {
         static HttpClient _client = new();
         const string _url_adress = "https://localhost:7197";
@@ -20,7 +20,7 @@ namespace ProjectOffice.ApiLibrary
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                User user = JsonConvert.DeserializeObject<User>(responseBody);
+                var user = JsonConvert.DeserializeObject<User>(responseBody);
                 return Models.UserModel.ToDbModel(user);
             }
             return null;
