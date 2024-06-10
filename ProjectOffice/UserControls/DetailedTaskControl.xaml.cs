@@ -133,11 +133,18 @@ namespace ProjectOffice.UserControls
             CreateStatus();
             DataStackPanel.Children.Add(new UserControls.ProgramAddControl());
             ObserversStackPanel.Children.Add(new UserControls.EmployeeAddControl());
+			LoadData();
             //EmployeesCb.SelectedItem = Employee;
             //var sdfsd = new Entities.DbContextProjectOffice().Employees.Any(x=> x.Id == Employee.Id);
         }
 
-        private async void BtnSave_Click(object sender, RoutedEventArgs e)
+		private void LoadData()
+		{
+            Context context = new();
+            var programs = GetPrograms();
+		}
+
+		private async void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Действительно сохранить?", "Внимание", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
@@ -199,7 +206,7 @@ namespace ProjectOffice.UserControls
         {
             byte size = (byte)this.DataStackPanel.Children.Count;
             int[] programs = new int[size];
-            for (int i = 0; i < size; i++)
+            for (int i = 1; i < size; i++)
             {
                 programs[i] = (this.ObserversStackPanel.Children[i] as UserControls.ProgramControl).Id;
             }

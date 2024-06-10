@@ -2,10 +2,6 @@
 @inject DialogService DialogService;
 @inject NavigationManager NavigationManager;
 <RadzenRow>
-	<div class="rz-p-12 rz-text-align-center">
-		<RadzenButton Text="Alert dialog" ButtonStyle="ButtonStyle.Secondary"
-					  Click=@(args => DialogService.Alert("Some message!", "MyTitle", new AlertOptions() { OkButtonText = "Yes" })) />
-	</div>
 		<RadzenLayout class="d-flex justify-content-center align-items-center align-middle" style="width: 100%; max-width: 400px;">
 			<RadzenStack>
 				<RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-info rz-p-12">

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 using ProjectOffice.DataBase.Entities;
 
 namespace ProjectOfficeApi.Controllers
@@ -10,10 +10,10 @@ namespace ProjectOfficeApi.Controllers
     public class AuthController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get([FromQuery] string login, [FromQuery]string password)
+        public async Task<IActionResult> Get([FromQuery] string login, [FromQuery]string password)
         {
             Context context = new();
-            var user = context.Users.FirstOrDefault(x=> x.Login == login && x.Password == password);
+            var user = await context.Users.FirstOrDefaultAsync(x=> x.Login == login && x.Password == password);
             if (user == null)
                 return NotFound();
             return Ok(user);
